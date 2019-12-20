@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="89695f240b2e43cba8788c225aa5174e" Name="Diagram1">
+        <EntityTypeShape EntityType="StockDATAModel.Category" Width="1.5" PointX="1.5" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StockDATAModel.ClientBill" Width="1.5" PointX="3" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StockDATAModel.ClientCommand" Width="1.5" PointX="6" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StockDATAModel.Clients" Width="1.5" PointX="3.75" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="StockDATAModel.EnterStock" Width="1.5" PointX="3" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StockDATAModel.LeaveStock" Width="1.5" PointX="3" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StockDATAModel.Product" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="StockDATAModel.ProviderBill" Width="1.5" PointX="6" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StockDATAModel.ProviderCommand" Width="1.5" PointX="6" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StockDATAModel.Providers" Width="1.5" PointX="1.5" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="StockDATAModel.Users" Width="1.5" PointX="0.75" PointY="10.625" IsExpanded="true" />
+        <AssociationConnector Association="StockDATAModel.FK__Product__categor__182C9B23" ManuallyRouted="false" />
+        <AssociationConnector Association="StockDATAModel.FK__ClientBil__Clien__32E0915F" ManuallyRouted="false" />
+        <AssociationConnector Association="StockDATAModel.FK__ClientBil__Users__33D4B598" ManuallyRouted="false" />
+        <AssociationConnector Association="StockDATAModel.FK__ClientCom__Clien__1DE57479" ManuallyRouted="false" />
+        <AssociationConnector Association="StockDATAModel.FK__ClientCom__Produ__1BFD2C07" ManuallyRouted="false" />
+        <AssociationConnector Association="StockDATAModel.FK__ClientCom__Users__1CF15040" ManuallyRouted="false" />
+        <AssociationConnector Association="StockDATAModel.FK__LeaveStoc__Clien__2C3393D0" ManuallyRouted="false" />
+        <AssociationConnector Association="StockDATAModel.FK__EnterStoc__Produ__25869641" ManuallyRouted="false" />
+        <AssociationConnector Association="StockDATAModel.FK__EnterStoc__Provi__276EDEB3" ManuallyRouted="false" />
+        <AssociationConnector Association="StockDATAModel.FK__EnterStoc__Users__267ABA7A" ManuallyRouted="false" />
+        <AssociationConnector Association="StockDATAModel.FK__LeaveStoc__Produ__2A4B4B5E" ManuallyRouted="false" />
+        <AssociationConnector Association="StockDATAModel.FK__LeaveStoc__Users__2B3F6F97" ManuallyRouted="false" />
+        <AssociationConnector Association="StockDATAModel.FK__Product__Provide__1920BF5C" ManuallyRouted="false" />
+        <AssociationConnector Association="StockDATAModel.FK__ProviderC__Produ__20C1E124" ManuallyRouted="false" />
+        <AssociationConnector Association="StockDATAModel.FK__ProviderB__Provi__2F10007B" ManuallyRouted="false" />
+        <AssociationConnector Association="StockDATAModel.FK__ProviderB__Users__300424B4" ManuallyRouted="false" />
+        <AssociationConnector Association="StockDATAModel.FK__ProviderC__Provi__22AA2996" ManuallyRouted="false" />
+        <AssociationConnector Association="StockDATAModel.FK__ProviderC__Users__21B6055D" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
