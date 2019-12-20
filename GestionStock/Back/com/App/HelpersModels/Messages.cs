@@ -24,5 +24,9 @@ namespace GestionStock.Back.com.App.HelpersModels
         public static Messages ClientModified { get { return new Messages("Client Modifiée"); } }
         public static Messages ClientDeleted { get { return new Messages("Client Supprimée"); } }
 
+        public static Messages ProviderAdded { get { return new Messages("Fournisseur Ajoutée"); } }
+        public static Messages ProviderModified { get { return new Messages("Fournisseur Modifiée"); } }
+        public static Messages ProviderDeleted { get { return new Messages("Fournisseur Supprimée"); } }
+
     }
 }

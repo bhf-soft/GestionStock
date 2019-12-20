@@ -121,5 +121,69 @@ namespace GestionStock.Front.com.App.Pages
 
             G_Client.ItemsSource = firstTable.DefaultView;
         }
+
+        private void ClientNameSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void Nouveau_Click(object sender, RoutedEventArgs e)
+        {
+            ClientForm clientForm = new ClientForm();
+            clientForm.Show();
+            clientForm.Closed += delegate
+            {
+                initial();
+            };
+        }
+
+        private void Modifier_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var row = G_Client.SelectedItem as DataRowView;
+                if (row != null)
+                {
+                    ClientForm clientForm = new ClientForm();
+                    clientForm.Show();
+                    clientForm.Id.Text = row.Row.ItemArray[0].ToString();
+                    clientForm.Id.IsEnabled = false;
+
+
+                    clientForm.FullName.Text = row.Row.ItemArray[1].ToString();
+                    clientForm.Email.Text = row.Row.ItemArray[2].ToString();
+                    clientForm.Patente.Text = row.Row.ItemArray[3].ToString();
+                    clientForm.Adress.Text = row.Row.ItemArray[4].ToString();
+                    clientForm.Tel.Text = row.Row.ItemArray[5].ToString();
+                    clientForm.City.Text = row.Row.ItemArray[6].ToString();
+                    clientForm.TypeC.Text = row.Row.ItemArray[7].ToString();
+                    clientForm.Establishment.Text = row.Row.ItemArray[8].ToString();
+
+
+                    clientForm.Closed += delegate {
+                        initial();
+                    };
+                }
+                else
+                {
+                    MessageBox.Show(Messages.SelectLineAlerte.Value);
+                }
+            }
+            catch (NullReferenceException)
+            {
+                MessageBox.Show(Messages.SelectLineAlerte.Value);
+            }
+            catch (Exception ex)
+            {
+                //log.Info(Loggers.isUknowenError.Value);
+                MessageBox.Show("Erreur Interne : \n \n " + ex.Message + " \n " + ex.StackTrace);
+            }
+        }
+
+        private void Supprimer_Click(object sender, RoutedEventArgs e)
+        {
+            ClientLists.delete(G_Client);
+            initial();
+        }
     }
 }

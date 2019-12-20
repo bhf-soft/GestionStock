@@ -12,12 +12,12 @@ using System.Windows.Controls;
 
 namespace GestionStock.Back.com.App.Controllers
 {
-    class ClientController
+    class ProviderController
     {
         readonly StockDATAEntities crudctx = new StockDATAEntities();
-        private List<Clients> client;
+        private List<Providers> provider;
 
-        public ClientController()
+        public ProviderController()
         {
             FillCategories();
         }
@@ -25,19 +25,19 @@ namespace GestionStock.Back.com.App.Controllers
         private void FillCategories()
         {
 
-            var q = (from a in crudctx.Clients
+            var q = (from a in crudctx.Providers
                      select a).Distinct().ToList();
-            this.client = q;
+            this.provider = q;
         }
-        public List<Clients> CLIENTS
+        public List<Providers> PROVIDERS
         {
             get
             {
-                return client;
+                return provider;
             }
             set
             {
-                client = value;
+                provider = value;
                 NotifyPropertyChanged();
             }
         }
@@ -49,13 +49,13 @@ namespace GestionStock.Back.com.App.Controllers
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-        public void InsertOrUpdate(Clients acc)
+        public void InsertOrUpdate(Providers acc)
         {
 
             var UpdatedorInserted =
-                crudctx.Clients.Where(c => c.Id.Equals(acc.Id)).FirstOrDefault();
+                crudctx.Providers.Where(c => c.Id.Equals(acc.Id)).FirstOrDefault();
 
-            if (crudctx.Clients.Any(c => c.Id.Equals(acc.Id)))
+            if (crudctx.Providers.Any(c => c.Id.Equals(acc.Id)))
             {
 
                 UpdatedorInserted.Id = acc.Id;
@@ -63,23 +63,23 @@ namespace GestionStock.Back.com.App.Controllers
                 UpdatedorInserted.FullName = acc.FullName;
                 UpdatedorInserted.Email = acc.Email;
                 UpdatedorInserted.Patente = acc.Patente;
-                UpdatedorInserted.Adress = acc.Adress;
+                UpdatedorInserted.Addres = acc.Addres;
                 UpdatedorInserted.Tel = acc.Tel;
                 UpdatedorInserted.City = acc.City;
-                UpdatedorInserted.TypeC = acc.TypeC;
+                UpdatedorInserted.TypeF = acc.TypeF;
                 UpdatedorInserted.Establishment = acc.Establishment;
                 UpdatedorInserted.Created_at = acc.Created_at;
 
                 UpdatedorInserted.Updated_at = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
 
 
-                MessageBox.Show(Messages.ClientModified.Value);
+                MessageBox.Show(Messages.ProviderModified.Value);
             }
 
             else
             {
-                crudctx.Clients.Add(acc);
-                MessageBox.Show(Messages.ClientAdded.Value);
+                crudctx.Providers.Add(acc);
+                MessageBox.Show(Messages.ProviderAdded.Value);
             }
 
             crudctx.SaveChanges();
@@ -98,14 +98,13 @@ namespace GestionStock.Back.com.App.Controllers
                         foreach (DataRowView selectedrows in g.SelectedItems)
                         {
                             string PK = selectedrows[0].ToString();
-                            Console.WriteLine("my pk " + PK);
 
-                            var deleteClient = crudctx.Clients.Where(m => m.Id.ToString().Equals(PK)).Single();
-                            crudctx.Clients.Remove(deleteClient);
+                            var deleteProvider = crudctx.Providers.Where(m => m.Id.ToString().Equals(PK)).Single();
+                            crudctx.Providers.Remove(deleteProvider);
                             crudctx.SaveChanges();
                         }
-                        MessageBox.Show(Messages.ClientDeleted.Value);
-                        g.ItemsSource = crudctx.Clients.ToList();
+                        MessageBox.Show(Messages.ProviderDeleted.Value);
+                        g.ItemsSource = crudctx.Providers.ToList();
                     }
                 }
                 else

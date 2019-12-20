@@ -13,7 +13,7 @@
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,10">
                             <Label Content="Rechercher :   " Foreground='black' FontSize="14" />
-                            <TextBox x:Name="ClientNameSearch" Style="{StaticResource placeHolder}" Tag="Nom Client    " MaxLength="10" HorizontalAlignment="Left" Height="30" Margin="1,0,0,4" TextWrapping="Wrap" Text="" VerticalAlignment="Top" />
+                            <TextBox x:Name="ClientNameSearch" Style="{StaticResource placeHolder}" Tag="Nom Client    " MaxLength="10" HorizontalAlignment="Left" Height="30" Margin="1,0,0,4" TextWrapping="Wrap" Text="" VerticalAlignment="Top" TextChanged="ClientNameSearch_TextChanged"/>
                         </StackPanel>
                         <StackPanel Orientation='Horizontal' Margin='6' HorizontalAlignment='Center'>
                             <Button x:Name='Backwards' Padding='4' Content='&lt;' Margin='6' Click='Backwards_Click'></Button>
@@ -49,12 +49,12 @@
                         </DataGrid.Columns>
                     </DataGrid>
                     <StackPanel Orientation="Horizontal" x:Name="ActionsPan">
-                        <Border CornerRadius="1" BorderBrush="Gray" BorderThickness="1" Background="Transparent" Height="25" Width="60" VerticalAlignment="Center" Margin="10,10,0,0" HorizontalAlignment='Left'>
-                            <Menu x:Name="MenuActions"  HorizontalAlignment='Left' Margin="0,0,0,0" Background="#F0F0F0">
-                                <MenuItem Header="Actions" Width="58" Height="24">
-                                    <MenuItem Header="Ajouter" x:Name="Nouveau" />
-                                    <MenuItem Header="Modifier" x:Name="Modifier"  />
-                                    <MenuItem Header="Supprimer" x:Name="Supprimer"/>
+                        <Border CornerRadius="1" BorderBrush="Gray" BorderThickness="1" Background="Transparent" Height="25" Width="90" VerticalAlignment="Center" Margin="10,10,0,0" HorizontalAlignment='Left'>
+                            <Menu x:Name="MenuActions"  HorizontalAlignment='Left' Margin="0,0,0,0" Background="#F0F0F0" Width="155">
+                                <MenuItem Header="Actions" Width="155" Height="24">
+                                    <MenuItem Header="Ajouter" x:Name="Nouveau" Click="Nouveau_Click"/>
+                                    <MenuItem Header="Modifier" x:Name="Modifier"  Click="Modifier_Click"/>
+                                    <MenuItem Header="Supprimer" x:Name="Supprimer" Click="Supprimer_Click"/>
                                 </MenuItem>
                             </Menu>
                         </Border>

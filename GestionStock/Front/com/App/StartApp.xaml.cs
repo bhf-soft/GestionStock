@@ -32,8 +32,8 @@ namespace GestionStock.Front.com.App
             double Grid_With = newWindowWidth -30;
             //*********
 
-            ProviderControl.G_Product.Height = (Grid_Height -70) /2;
-            ProviderControl.G_Product.Width = Grid_With;
+            ProviderControl.G_Provider.Height = (Grid_Height -70) /2;
+            ProviderControl.G_Provider.Width = Grid_With;
 
             ClientControl.G_Client.Height = (Grid_Height - 70) / 2;
             ClientControl.G_Client.Width = Grid_With;

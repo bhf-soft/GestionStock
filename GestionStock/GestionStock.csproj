@@ -73,6 +73,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Back\com\App\Controllers\ClientController.cs" />
+    <Compile Include="Back\com\App\Controllers\ProviderController.cs" />
+    <Compile Include="Back\com\App\HelpersModels\FormControlHelper.cs" />
     <Compile Include="Back\com\App\HelpersModels\Messages.cs" />
     <Compile Include="Back\com\App\HelpersModels\paging.cs" />
     <Compile Include="Back\com\App\Statics\CRUDOperations.cs" />
@@ -91,6 +93,12 @@
     </Compile>
     <Compile Include="EnterStock.cs">
       <DependentUpon>StockDATAModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Front\com\App\Pages\ClientForm.xaml.cs">
+      <DependentUpon>ClientForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Front\com\App\Pages\ProviderForm.xaml.cs">
+      <DependentUpon>ProviderForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="LeaveStock.cs">
       <DependentUpon>StockDATAModel.tt</DependentUpon>
@@ -129,11 +137,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Front\com\App\Pages\ClientForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Front\com\App\Pages\ProductControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Front\com\App\Pages\ProviderControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Front\com\App\Pages\ProviderForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -221,6 +237,7 @@
     <Resource Include="Assets\imgs\ProductCrud.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Assets\imgs\Clients.png" />
     <Content Include="StockDATAModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>StockDATAModel.Context.cs</LastGenOutput>
