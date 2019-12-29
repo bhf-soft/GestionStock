@@ -19,6 +19,9 @@ namespace GestionStock
         public string PurchaseMethod { get; set; }
         public Nullable<int> Users_id { get; set; }
         public Nullable<System.DateTime> PurchaseDate { get; set; }
+        public string PurchaseNumber { get; set; }
+        public Nullable<float> Total { get; set; }
+        public Nullable<float> Rest { get; set; }
     
         public virtual ClientCommand ClientCommand { get; set; }
         public virtual Users Users { get; set; }

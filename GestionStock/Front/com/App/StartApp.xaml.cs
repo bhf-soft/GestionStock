@@ -22,6 +22,9 @@ namespace GestionStock.Front.com.App
     {
         ProviderControl ProviderControl = new ProviderControl();
         ClientControl ClientControl = new ClientControl();
+        ProductControl ProductControl = new ProductControl();
+        CategoryControl CategoryControl = new CategoryControl();
+        ProviderCommandControl ProviderCommandControl = new ProviderCommandControl();
         public StartApp()
         {
             InitializeComponent();
@@ -37,9 +40,65 @@ namespace GestionStock.Front.com.App
 
             ClientControl.G_Client.Height = (Grid_Height - 70) / 2;
             ClientControl.G_Client.Width = Grid_With;
+
+            ProductControl.G_Product.Height = (Grid_Height - 70) / 2;
+            ProductControl.G_Product.Width = Grid_With;
+
+            CategoryControl.G_Category.Height = (Grid_Height - 70) / 2;
+            CategoryControl.G_Category.Width = Grid_With;
+
+            ProviderCommandControl.G_ProviderCommand.Height = (Grid_Height - 70) / 2;
+            ProviderCommandControl.G_ProviderCommand.Width = Grid_With;
+        }
+        private void ProductBtn_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            MainPanel.Children.Clear();
+            if (MainPanel.Children.Count == 0)
+            {
+                MainPanel.Children.Add(ProductControl);
+                MainPanel.Children.Add(CategoryControl);
+            }
         }
 
-            private void ProductBtn_MouseEnter(object sender, MouseEventArgs e)
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            double newWindowHeight = e.NewSize.Height - 20;
+            double newWindowWidth = e.NewSize.Width;
+            resizing(newWindowHeight, newWindowWidth);
+        }
+
+        private void ClientsBtn_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            MainPanel.Children.Clear();
+            if (MainPanel.Children.Count == 0)
+            {
+                MainPanel.Children.Add(ClientControl);
+                MainPanel.Children.Add(ProviderControl);
+            }
+        }
+        private void Btn_MouseEnter(object sender, MouseEventArgs e)
+        {
+            
+        }
+
+        private void Btn_MouseLeave(object sender, MouseEventArgs e)
+        {
+            
+        }
+
+        private void ClientsBtn_MouseEnter(object sender, MouseEventArgs e)
+        {
+            ClientsBtn.Width = 90;
+            ClientsBtn.Height = 90;
+        }
+
+        private void ClientsBtn_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ClientsBtn.Width = 70;
+            ClientsBtn.Height = 70;
+        }
+
+        private void ProductBtn_MouseEnter(object sender, MouseEventArgs e)
         {
             ProductBtn.Width = 90;
             ProductBtn.Height = 90;
@@ -51,20 +110,26 @@ namespace GestionStock.Front.com.App
             ProductBtn.Height = 70;
         }
 
-        private void ProductBtn_MouseDown(object sender, MouseButtonEventArgs e)
+        private void CommandBtn_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if(MainPanel.Children.Count == 0)
+            MainPanel.Children.Clear();
+            if (MainPanel.Children.Count == 0)
             {
-                MainPanel.Children.Add(ClientControl);
-                MainPanel.Children.Add(ProviderControl);
+                MainPanel.Children.Add(ProviderCommandControl);
+                //MainPanel.Children.Add(ProviderControl);
             }
         }
 
-        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void CommandBtn_MouseEnter(object sender, MouseEventArgs e)
         {
-            double newWindowHeight = e.NewSize.Height - 20;
-            double newWindowWidth = e.NewSize.Width;
-            resizing(newWindowHeight, newWindowWidth);
+            CommandBtn.Width = 90;
+            CommandBtn.Height = 90;
+        }
+
+        private void CommandBtn_MouseLeave(object sender, MouseEventArgs e)
+        {
+            CommandBtn.Width = 70;
+            CommandBtn.Height = 70;
         }
     }
 }

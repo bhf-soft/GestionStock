@@ -28,5 +28,19 @@ namespace GestionStock.Back.com.App.HelpersModels
         public static Messages ProviderModified { get { return new Messages("Fournisseur Modifiée"); } }
         public static Messages ProviderDeleted { get { return new Messages("Fournisseur Supprimée"); } }
 
+        public static Messages CategoryAdded { get { return new Messages("Catégorie Ajoutée"); } }
+        public static Messages CategoryModified { get { return new Messages("Catégorie Modifiée"); } }
+        public static Messages CategoryDeleted { get { return new Messages("Catégorie Supprimée"); } }
+
+        public static Messages ProductAdded { get { return new Messages("Catégorie Ajoutée"); } }
+        public static Messages ProductModified { get { return new Messages("Catégorie Modifiée"); } }
+        public static Messages ProductDeleted { get { return new Messages("Catégorie Supprimée"); } }
+
+        public static Messages ProviderCommandAdded { get { return new Messages("Commande Fournisseur Ajoutée"); } }
+        public static Messages ProviderCommandModified { get { return new Messages("Commande Fournisseur Modifiée"); } }
+        public static Messages ProviderCommandDeleted { get { return new Messages("Commande Fournisseur Supprimée"); } }
+
+        public static Messages ProviderCommandBillAdded { get { return new Messages("Facture Fournisseur Ajoutée"); } }
+
     }
 }

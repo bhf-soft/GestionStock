@@ -15,9 +15,9 @@
         </StackPanel>
         
         <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-            <Image x:Name="ProductBtn" Source="../../../Assets/imgs/Clients.png" Margin="8,0,0,5" Stretch="UniformToFill" VerticalAlignment="Bottom" Width="70" Height="70" MouseDown="ProductBtn_MouseDown" MouseEnter="ProductBtn_MouseEnter" MouseLeave="ProductBtn_MouseLeave"/>
-            <Image Source="../../../Assets/imgs/ProductCrud.png" Margin="8,0,0,5" Stretch="UniformToFill" Width="70" Height="70" VerticalAlignment="Bottom"/>
-            <Image Source="../../../Assets/imgs/ProductCrud.png" Margin="8,0,0,5" Stretch="UniformToFill" Width="70" Height="70" VerticalAlignment="Bottom"/>
+            <Image x:Name="ClientsBtn" Source="../../../Assets/imgs/Clients.png" Margin="8,0,0,5" Stretch="UniformToFill" VerticalAlignment="Bottom" Width="70" Height="70" MouseDown="ClientsBtn_MouseDown" MouseEnter="ClientsBtn_MouseEnter" MouseLeave="ClientsBtn_MouseLeave"/>
+            <Image x:Name="ProductBtn" Source="../../../Assets/imgs/Clients.png" Margin="8,0,0,5" Stretch="UniformToFill" Width="70" Height="70" VerticalAlignment="Bottom" MouseDown="ProductBtn_MouseDown" MouseEnter="ProductBtn_MouseEnter" MouseLeave="ProductBtn_MouseLeave" />
+            <Image x:Name="CommandBtn" Source="../../../Assets/imgs/ProductCrud.png" Margin="8,0,0,5" Stretch="UniformToFill" Width="70" Height="70" VerticalAlignment="Bottom" MouseDown="CommandBtn_MouseDown" MouseEnter="CommandBtn_MouseEnter" MouseLeave="CommandBtn_MouseLeave"/>
             <Image Source="../../../Assets/imgs/ProductCrud.png" Margin="8,0,0,5" Stretch="UniformToFill" Width="70" Height="70" VerticalAlignment="Bottom"/>
             <Image Source="../../../Assets/imgs/ProductCrud.png" Margin="8,0,0,5" Stretch="UniformToFill" Width="70" Height="70" VerticalAlignment="Bottom"/>
 

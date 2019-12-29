@@ -12,13 +12,12 @@ using System.Windows.Controls;
 
 namespace GestionStock.Back.com.App.Controllers
 {
-    class ProviderController
+    class CategoryController
     {
         readonly StockDATAEntities crudctx = new StockDATAEntities();
-        public static StockDATAEntities StkInfo = new StockDATAEntities();
-        private List<Providers> provider;
+        private List<Category> category;
 
-        public ProviderController()
+        public CategoryController()
         {
             FillCategories();
         }
@@ -26,19 +25,19 @@ namespace GestionStock.Back.com.App.Controllers
         private void FillCategories()
         {
 
-            var q = (from a in crudctx.Providers
+            var q = (from a in crudctx.Category
                      select a).Distinct().ToList();
-            this.provider = q;
+            this.category = q;
         }
-        public List<Providers> PROVIDERS
+        public List<Category> CATEGORIES
         {
             get
             {
-                return provider;
+                return category;
             }
             set
             {
-                provider = value;
+                category = value;
                 NotifyPropertyChanged();
             }
         }
@@ -50,37 +49,30 @@ namespace GestionStock.Back.com.App.Controllers
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-        public void InsertOrUpdate(Providers acc)
+        public void InsertOrUpdate(Category acc)
         {
 
             var UpdatedorInserted =
-                crudctx.Providers.Where(c => c.Id.Equals(acc.Id)).FirstOrDefault();
+                crudctx.Category.Where(c => c.Id.Equals(acc.Id)).FirstOrDefault();
 
-            if (crudctx.Providers.Any(c => c.Id.Equals(acc.Id)))
+            if (crudctx.Category.Any(c => c.Id.Equals(acc.Id)))
             {
 
                 UpdatedorInserted.Id = acc.Id;
 
-                UpdatedorInserted.FullName = acc.FullName;
-                UpdatedorInserted.Email = acc.Email;
-                UpdatedorInserted.Patente = acc.Patente;
-                UpdatedorInserted.Addres = acc.Addres;
-                UpdatedorInserted.Tel = acc.Tel;
-                UpdatedorInserted.City = acc.City;
-                UpdatedorInserted.TypeF = acc.TypeF;
-                UpdatedorInserted.Establishment = acc.Establishment;
-                UpdatedorInserted.Created_at = acc.Created_at;
+                UpdatedorInserted.Designation = acc.Designation;
 
-                UpdatedorInserted.Updated_at = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
+                UpdatedorInserted.created_at = acc.created_at;
+                UpdatedorInserted.updated_at = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
 
 
-                MessageBox.Show(Messages.ProviderModified.Value);
+                MessageBox.Show(Messages.CategoryModified.Value);
             }
 
             else
             {
-                crudctx.Providers.Add(acc);
-                MessageBox.Show(Messages.ProviderAdded.Value);
+                crudctx.Category.Add(acc);
+                MessageBox.Show(Messages.CategoryAdded.Value);
             }
 
             crudctx.SaveChanges();
@@ -99,13 +91,14 @@ namespace GestionStock.Back.com.App.Controllers
                         foreach (DataRowView selectedrows in g.SelectedItems)
                         {
                             string PK = selectedrows[0].ToString();
+                            Console.WriteLine("my pk " + PK);
 
-                            var deleteProvider = crudctx.Providers.Where(m => m.Id.ToString().Equals(PK)).Single();
-                            crudctx.Providers.Remove(deleteProvider);
+                            var deleteCategory = crudctx.Category.Where(m => m.Id.ToString().Equals(PK)).Single();
+                            crudctx.Category.Remove(deleteCategory);
                             crudctx.SaveChanges();
                         }
-                        MessageBox.Show(Messages.ProviderDeleted.Value);
-                        g.ItemsSource = crudctx.Providers.ToList();
+                        MessageBox.Show(Messages.CategoryDeleted.Value);
+                        g.ItemsSource = crudctx.Category.ToList();
                     }
                 }
                 else
@@ -121,23 +114,6 @@ namespace GestionStock.Back.com.App.Controllers
             {
                 MessageBox.Show("Erreur :" + ex.Message + "  \n " + ex.StackTrace);
             }
-        }
-
-        public static Dictionary<string, string> getProvider()
-        {
-            var map = new Dictionary<string, string>();
-            var q = (from a in StkInfo.Providers
-                     select new
-                     {
-                         id = a.Id,
-                         name = a.FullName
-                     }).Distinct().ToList();
-
-            for (int i = 0; i < q.Count; i++)
-            {
-                map.Add(q[i].id.ToString(), q[i].name);
-            }
-            return map;
         }
     }
 }

@@ -19,9 +19,9 @@ using System.Windows.Shapes;
 namespace GestionStock.Front.com.App.Pages
 {
     /// <summary>
-    /// Logique d'interaction pour ProductControl.xaml
+    /// Logique d'interaction pour CategoryControl.xaml
     /// </summary>
-    public partial class ProductControl : UserControl
+    public partial class CategoryControl : UserControl
     {
         private int numberOfRecPerPage;
         public List<string> Items = new List<string>();
@@ -29,50 +29,50 @@ namespace GestionStock.Front.com.App.Pages
         public Boolean selected = false;
         public DataRowView SelectedRow = null;
 
-        static ProductController ProductLists;
+        static CategoryController CategoryLists;
         public List<string> analyseSession = new List<string>();
-        private static List<Product> Product;
+        private static List<Category> Categorie;
         public static string groupe = "";
-        private static List<Product> myList = new List<Product>();
+        private static List<Category> myList = new List<Category>();
 
-        public ProductControl()
+        public CategoryControl()
         {
             InitializeComponent();
-            PagedTable.type = typeof(Product);
+            PagedTable.type = typeof(Category);
             initial();
         }
         public void initial()
         {
-            ProductLists = new ProductController();
-            Product = ProductLists.PRODUCTS.ToList<Product>();
-            myList = Product;
+            CategoryLists = new CategoryController();
+            Categorie = CategoryLists.CATEGORIES.ToList<Category>();
+            myList = Categorie;
             pagy();
         }
         private void Backwards_Click(object sender, RoutedEventArgs e)
         {
-            G_Product.ItemsSource = PagedTable.Previous(myList.Cast<Object>().ToList(), numberOfRecPerPage).DefaultView;
+            G_Category.ItemsSource = PagedTable.Previous(myList.Cast<Object>().ToList(), numberOfRecPerPage).DefaultView;
             PageInfo.Content = PageNumberDisplay();
         }
         private void First_Click(object sender, RoutedEventArgs e)
         {
-            G_Product.ItemsSource = PagedTable.First(myList.Cast<Object>().ToList(), numberOfRecPerPage).DefaultView;
+            G_Category.ItemsSource = PagedTable.First(myList.Cast<Object>().ToList(), numberOfRecPerPage).DefaultView;
             PageInfo.Content = PageNumberDisplay();
         }
         private void Last_Click(object sender, RoutedEventArgs e)
         {
-            G_Product.ItemsSource = PagedTable.Last(myList.Cast<Object>().ToList(), numberOfRecPerPage).DefaultView;
+            G_Category.ItemsSource = PagedTable.Last(myList.Cast<Object>().ToList(), numberOfRecPerPage).DefaultView;
             PageInfo.Content = PageNumberDisplay();
         }
 
         private void Forward_Click(object sender, RoutedEventArgs e)    //For each of these you call the direction you want and pass in the List and ComboBox output
         {                                                               //and use the above function to output the Record number to the Label
-            G_Product.ItemsSource = PagedTable.Next(myList.Cast<Object>().ToList(), numberOfRecPerPage).DefaultView;
+            G_Category.ItemsSource = PagedTable.Next(myList.Cast<Object>().ToList(), numberOfRecPerPage).DefaultView;
             PageInfo.Content = PageNumberDisplay();
         }
         private void NumberOfRecords_SelectionChanged(object sender, SelectionChangedEventArgs e)  //I couldn't get this function to update in place (if the grid showed 20 and I selected 100 it would jump to 200)
         {                                                                                          //So instead I had it call the First function and that does an acceptable job.
             numberOfRecPerPage = Convert.ToInt32(NumberOfRecords.SelectedItem);
-            G_Product.ItemsSource = PagedTable.First(myList.Cast<Object>().ToList(), numberOfRecPerPage).DefaultView;
+            G_Category.ItemsSource = PagedTable.First(myList.Cast<Object>().ToList(), numberOfRecPerPage).DefaultView;
             PageInfo.Content = PageNumberDisplay();
         }
         public string PageNumberDisplay()
@@ -103,18 +103,18 @@ namespace GestionStock.Front.com.App.Pages
 
             // PagedTable.PageIndex = 0;
 
-            PagedTable.type = typeof(Product);
+            PagedTable.type = typeof(Category);
 
             DataTable firstTable = PagedTable.SetPaging(myList.Cast<Object>().ToList(), numberOfRecPerPage); //Fill a DataTable with the First set based on the numberOfRecPerPage
 
-            G_Product.ItemsSource = firstTable.DefaultView;
+            G_Category.ItemsSource = firstTable.DefaultView;
         }
 
         private void Nouveau_Click(object sender, RoutedEventArgs e)
         {
-            ProductForm providerForm = new ProductForm();
-            providerForm.Show();
-            providerForm.Closed += delegate
+            CategoryForm categoryForm = new CategoryForm();
+            categoryForm.Show();
+            categoryForm.Closed += delegate
             {
                 initial();
             };
@@ -124,20 +124,17 @@ namespace GestionStock.Front.com.App.Pages
         {
             try
             {
-                var row = G_Product.SelectedItem as DataRowView;
+                var row = G_Category.SelectedItem as DataRowView;
                 if (row != null)
                 {
-                    ProductForm ProductForm = new ProductForm();
-                    ProductForm.Show();
-                    ProductForm.Id.Text = row.Row.ItemArray[0].ToString();
-                    ProductForm.Id.IsEnabled = false;
+                    CategoryForm categoryForm = new CategoryForm();
+                    categoryForm.Show();
+                    categoryForm.Id.Text = row.Row.ItemArray[0].ToString();
+                    categoryForm.Id.IsEnabled = false;
 
-                    ProductForm.Designation.Text = row.Row.ItemArray[1].ToString();
-                    ProductForm.Price.Text = row.Row.ItemArray[2].ToString();
-                    ProductForm.category_id.SelectedValue = row.Row.ItemArray[3].ToString();
-                    ProductForm.Provider_id.SelectedValue = row.Row.ItemArray[4].ToString();
+                    categoryForm.Designation.Text = row.Row.ItemArray[1].ToString();
 
-                    ProductForm.Closed += delegate {
+                    categoryForm.Closed += delegate {
                         initial();
                     };
                 }
@@ -159,11 +156,10 @@ namespace GestionStock.Front.com.App.Pages
 
         private void Supprimer_Click(object sender, RoutedEventArgs e)
         {
-            ProductLists.delete(G_Product);
+            CategoryLists.delete(G_Category);
             initial();
         }
-
-        private void ProductNameSearch_TextChanged(object sender, TextChangedEventArgs e)
+        private void CategoryNameSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }

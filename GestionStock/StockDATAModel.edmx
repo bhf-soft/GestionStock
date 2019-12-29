@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="StockDATAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="StockDATAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="Id" />
@@ -20,9 +20,12 @@
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="ClientCommand_id" Type="int" />
-          <Property Name="PurchaseMethod" Type="varchar" MaxLength="1" />
+          <Property Name="PurchaseMethod" Type="varchar" MaxLength="100" />
+          <Property Name="PurchaseNumber" Type="varchar" MaxLength="200" />
           <Property Name="Users_id" Type="int" />
           <Property Name="PurchaseDate" Type="date" />
+          <Property Name="Total" Type="real" />
+          <Property Name="Rest" Type="real" />
         </EntityType>
         <EntityType Name="ClientCommand">
           <Key>
@@ -95,9 +98,12 @@
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="ProviderCommand_id" Type="int" />
-          <Property Name="PurchaseMethod" Type="varchar" MaxLength="1" />
+          <Property Name="PurchaseMethod" Type="varchar" MaxLength="100" />
+          <Property Name="PurchaseNumber" Type="varchar" MaxLength="200" />
           <Property Name="Users_id" Type="int" />
           <Property Name="PurchaseDate" Type="date" />
+          <Property Name="Total" Type="real" />
+          <Property Name="Rest" Type="real" />
         </EntityType>
         <EntityType Name="ProviderCommand">
           <Key>
@@ -144,7 +150,7 @@
           <Property Name="Created_at" Type="date" />
           <Property Name="Updated_at" Type="date" />
         </EntityType>
-        <Association Name="FK__ClientBil__Clien__32E0915F">
+        <Association Name="FK__ClientBil__Clien__3A81B327">
           <End Role="ClientCommand" Type="Self.ClientCommand" Multiplicity="0..1" />
           <End Role="ClientBill" Type="Self.ClientBill" Multiplicity="*" />
           <ReferentialConstraint>
@@ -156,7 +162,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ClientBil__Users__33D4B598">
+        <Association Name="FK__ClientBil__Users__3B75D760">
           <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
           <End Role="ClientBill" Type="Self.ClientBill" Multiplicity="*" />
           <ReferentialConstraint>
@@ -300,7 +306,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ProviderB__Provi__2F10007B">
+        <Association Name="FK__ProviderB__Provi__36B12243">
           <End Role="ProviderCommand" Type="Self.ProviderCommand" Multiplicity="0..1" />
           <End Role="ProviderBill" Type="Self.ProviderBill" Multiplicity="*" />
           <ReferentialConstraint>
@@ -312,7 +318,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ProviderB__Users__300424B4">
+        <Association Name="FK__ProviderB__Users__37A5467C">
           <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
           <End Role="ProviderBill" Type="Self.ProviderBill" Multiplicity="*" />
           <ReferentialConstraint>
@@ -372,11 +378,11 @@
           <EntitySet Name="ProviderCommand" EntityType="Self.ProviderCommand" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Providers" EntityType="Self.Providers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__ClientBil__Clien__32E0915F" Association="Self.FK__ClientBil__Clien__32E0915F">
+          <AssociationSet Name="FK__ClientBil__Clien__3A81B327" Association="Self.FK__ClientBil__Clien__3A81B327">
             <End Role="ClientCommand" EntitySet="ClientCommand" />
             <End Role="ClientBill" EntitySet="ClientBill" />
           </AssociationSet>
-          <AssociationSet Name="FK__ClientBil__Users__33D4B598" Association="Self.FK__ClientBil__Users__33D4B598">
+          <AssociationSet Name="FK__ClientBil__Users__3B75D760" Association="Self.FK__ClientBil__Users__3B75D760">
             <End Role="Users" EntitySet="Users" />
             <End Role="ClientBill" EntitySet="ClientBill" />
           </AssociationSet>
@@ -424,11 +430,11 @@
             <End Role="Providers" EntitySet="Providers" />
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
-          <AssociationSet Name="FK__ProviderB__Provi__2F10007B" Association="Self.FK__ProviderB__Provi__2F10007B">
+          <AssociationSet Name="FK__ProviderB__Provi__36B12243" Association="Self.FK__ProviderB__Provi__36B12243">
             <End Role="ProviderCommand" EntitySet="ProviderCommand" />
             <End Role="ProviderBill" EntitySet="ProviderBill" />
           </AssociationSet>
-          <AssociationSet Name="FK__ProviderB__Users__300424B4" Association="Self.FK__ProviderB__Users__300424B4">
+          <AssociationSet Name="FK__ProviderB__Users__37A5467C" Association="Self.FK__ProviderB__Users__37A5467C">
             <End Role="Users" EntitySet="Users" />
             <End Role="ProviderBill" EntitySet="ProviderBill" />
           </AssociationSet>
@@ -445,8 +451,7 @@
             <End Role="ProviderCommand" EntitySet="ProviderCommand" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="StockDATAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -466,11 +471,14 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="ClientCommand_id" Type="Int32" />
-          <Property Name="PurchaseMethod" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="PurchaseMethod" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Users_id" Type="Int32" />
           <Property Name="PurchaseDate" Type="DateTime" Precision="0" />
           <NavigationProperty Name="ClientCommand" Relationship="Self.FK__ClientBil__Clien__32E0915F" FromRole="ClientBill" ToRole="ClientCommand" />
           <NavigationProperty Name="Users" Relationship="Self.FK__ClientBil__Users__33D4B598" FromRole="ClientBill" ToRole="Users" />
+          <Property Name="PurchaseNumber" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Total" Type="Single" />
+          <Property Name="Rest" Type="Single" />
         </EntityType>
         <EntityType Name="ClientCommand">
           <Key>
@@ -561,11 +569,14 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="ProviderCommand_id" Type="Int32" />
-          <Property Name="PurchaseMethod" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="PurchaseMethod" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Users_id" Type="Int32" />
           <Property Name="PurchaseDate" Type="DateTime" Precision="0" />
           <NavigationProperty Name="ProviderCommand" Relationship="Self.FK__ProviderB__Provi__2F10007B" FromRole="ProviderBill" ToRole="ProviderCommand" />
           <NavigationProperty Name="Users" Relationship="Self.FK__ProviderB__Users__300424B4" FromRole="ProviderBill" ToRole="Users" />
+          <Property Name="PurchaseNumber" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Total" Type="Single" />
+          <Property Name="Rest" Type="Single" />
         </EntityType>
         <EntityType Name="ProviderCommand">
           <Key>
@@ -945,6 +956,9 @@
           <EntitySetMapping Name="ClientBill">
             <EntityTypeMapping TypeName="StockDATAModel.ClientBill">
               <MappingFragment StoreEntitySet="ClientBill">
+                <ScalarProperty Name="Rest" ColumnName="Rest" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="PurchaseNumber" ColumnName="PurchaseNumber" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ClientCommand_id" ColumnName="ClientCommand_id" />
                 <ScalarProperty Name="PurchaseMethod" ColumnName="PurchaseMethod" />
@@ -1026,6 +1040,9 @@
           <EntitySetMapping Name="ProviderBill">
             <EntityTypeMapping TypeName="StockDATAModel.ProviderBill">
               <MappingFragment StoreEntitySet="ProviderBill">
+                <ScalarProperty Name="Rest" ColumnName="Rest" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="PurchaseNumber" ColumnName="PurchaseNumber" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ProviderCommand_id" ColumnName="ProviderCommand_id" />
                 <ScalarProperty Name="PurchaseMethod" ColumnName="PurchaseMethod" />

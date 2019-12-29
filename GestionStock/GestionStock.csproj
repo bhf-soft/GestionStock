@@ -72,8 +72,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Back\com\App\Controllers\CategoryController.cs" />
     <Compile Include="Back\com\App\Controllers\ClientController.cs" />
+    <Compile Include="Back\com\App\Controllers\ProductController.cs" />
+    <Compile Include="Back\com\App\Controllers\ProviderCommandController.cs" />
     <Compile Include="Back\com\App\Controllers\ProviderController.cs" />
+    <Compile Include="Back\com\App\Controllers\UsersController.cs" />
     <Compile Include="Back\com\App\HelpersModels\FormControlHelper.cs" />
     <Compile Include="Back\com\App\HelpersModels\Messages.cs" />
     <Compile Include="Back\com\App\HelpersModels\paging.cs" />
@@ -94,8 +98,23 @@
     <Compile Include="EnterStock.cs">
       <DependentUpon>StockDATAModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Front\com\App\Pages\CategoryControl.xaml.cs">
+      <DependentUpon>CategoryControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Front\com\App\Pages\CategoryForm.xaml.cs">
+      <DependentUpon>CategoryForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Front\com\App\Pages\ClientForm.xaml.cs">
       <DependentUpon>ClientForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Front\com\App\Pages\ProductForm.xaml.cs">
+      <DependentUpon>ProductForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Front\com\App\Pages\ProviderCommandControl.xaml.cs">
+      <DependentUpon>ProviderCommandControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Front\com\App\Pages\ProviderCommandForm.xaml.cs">
+      <DependentUpon>ProviderCommandForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="Front\com\App\Pages\ProviderForm.xaml.cs">
       <DependentUpon>ProviderForm.xaml</DependentUpon>
@@ -133,6 +152,14 @@
     <Compile Include="Users.cs">
       <DependentUpon>StockDATAModel.tt</DependentUpon>
     </Compile>
+    <Page Include="Front\com\App\Pages\CategoryControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Front\com\App\Pages\CategoryForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Front\com\App\Pages\ClientControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -142,6 +169,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Front\com\App\Pages\ProductControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Front\com\App\Pages\ProductForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Front\com\App\Pages\ProviderCommandControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Front\com\App\Pages\ProviderCommandForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,11 +1,14 @@
-﻿<UserControl x:Class="GestionStock.Front.com.App.Pages.ProductControl"
+﻿<UserControl x:Class="GestionStock.Front.com.App.Pages.ProviderCommandControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GestionStock.Front.com.App.Pages"
              mc:Ignorable="d" 
-             d:DesignHeight="554" d:DesignWidth="1000">
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ObjectDataProvider x:Key="PurchaseMethode" ObjectType="{x:Type local:CollectionDataBill}" MethodName="GetPurchaseMethod"/>
+    </UserControl.Resources>
     <Grid>
         <StackPanel x:Name="stack" Orientation="Horizontal" Height="auto" Width="auto" HorizontalAlignment="Center">
             <StackPanel Orientation="Vertical" Width="auto">
@@ -13,7 +16,7 @@
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,10">
                             <Label Content="Rechercher :   " Foreground='black' FontSize="14" />
-                            <TextBox x:Name="ProductNameSearch" Style="{StaticResource placeHolder}" Tag="Nom Produit    " MaxLength="10" HorizontalAlignment="Left" Height="30" Margin="1,0,0,4" TextWrapping="Wrap" Text="" VerticalAlignment="Top" TextChanged="ProductNameSearch_TextChanged"/>
+                            <TextBox x:Name="ProviderCommandNameSearch" Style="{StaticResource placeHolder}" Tag="Nom Commande    " MaxLength="10" HorizontalAlignment="Left" Height="30" Margin="1,0,0,4" TextWrapping="Wrap" Text="" VerticalAlignment="Top" TextChanged="ProviderCommandNameSearch_TextChanged"/>
                         </StackPanel>
                         <StackPanel Orientation='Horizontal' Margin='6' HorizontalAlignment='Center'>
                             <Button x:Name='Backwards' Padding='4' Content='&lt;' Margin='6' Click='Backwards_Click'></Button>
@@ -30,20 +33,25 @@
 
                     </StackPanel>
 
-                    <DataGrid  AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="false" x:Name="G_Product" Height="auto" Width="auto"
+                    <DataGrid  AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="false" x:Name="G_ProviderCommand" Height="auto" Width="auto"
                                ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Visible" RowStyle="{StaticResource rowStyle}" CellStyle="{StaticResource cellStyle}">
 
                         <DataGrid.Columns>
                             <DataGridTextColumn Visibility="Hidden" Header="ID" Binding="{Binding Id}" Width="80"/>
 
-                            <DataGridTextColumn Header="Nom Produit" Binding="{Binding Designation}" Width="300" />
-                            <DataGridTextColumn Header="Prix" Binding="{Binding Price}" Width="220" />
-                            <DataGridTextColumn Header="Catégorie" Binding="{Binding Category.Designation}" Width="300" />
-                            <DataGridTextColumn Header="Fournisseur" Binding="{Binding Providers.FullName}" Width="300" />
-                            <DataGridTextColumn Header="Date d'ajout" Binding="{Binding created_at}" Width="300" />
-                            <DataGridTextColumn Header="Date de modification" Visibility="Hidden" Binding="{Binding updated_at}" Width="160" />
+                            <DataGridTextColumn Header="Nom Produit" Binding="{Binding Product.Designation}" Width="160" />
+                            <DataGridTextColumn Header="Quantité" Binding="{Binding Qte}" Width="160" />
+                            <DataGridTextColumn Header="Fournisseur" Binding="{Binding Providers.FullName}" Width="160" />
+                            <DataGridTextColumn Header="Utilisateur" Binding="{Binding Users.FullName}" Width="200" />
+                            <DataGridCheckBoxColumn Header="Commande Confirmée" Binding="{Binding IsDelivred}" Width="150" />
+                            <DataGridCheckBoxColumn Header="Commande Annulée" Binding="{Binding IsCancled}" Width="160" />
+                            <DataGridTextColumn Header="Date Commande" Binding="{Binding CmdDate}" Width="160" />
+                            <DataGridTextColumn Header="Date Confirmation Commande" Binding="{Binding ConfirmationDate}" Width="200" />
+                            <DataGridTextColumn Header="Date Annulation" Binding="{Binding CancelDate}" Width="160" />
                         </DataGrid.Columns>
                     </DataGrid>
+                    
+                    
                     <StackPanel Orientation="Horizontal" x:Name="ActionsPan">
                         <Border CornerRadius="1" BorderBrush="Gray" BorderThickness="1" Background="Transparent" Height="25" Width="90" VerticalAlignment="Center" Margin="10,10,0,0" HorizontalAlignment='Left'>
                             <Menu x:Name="MenuActions"  HorizontalAlignment='Left' Margin="0,0,0,0" Background="#F0F0F0" Width="155">
@@ -51,11 +59,27 @@
                                     <MenuItem Header="Ajouter" x:Name="Nouveau" Click="Nouveau_Click"/>
                                     <MenuItem Header="Modifier" x:Name="Modifier"  Click="Modifier_Click"/>
                                     <MenuItem Header="Supprimer" x:Name="Supprimer" Click="Supprimer_Click"/>
+                                    <MenuItem Header="Stocker" x:Name="Stocker" Click="Stocker_Click"/>
                                 </MenuItem>
                             </Menu>
                         </Border>
                         <Label x:Name="ActionsAlerteLabel" Visibility="Hidden" Content="vous etes pas un admin !" HorizontalAlignment="Center" VerticalAlignment="Bottom" Foreground="Red"/>
                     </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10">
+                        <Label Content="Methode de Paiment :   " Foreground='black' FontSize="14" />
+                        <ComboBox x:Name="PurchaseMethod" Margin="5,5" Height="30" Width="100" HorizontalAlignment="Stretch" VerticalAlignment="Center" SelectedValuePath="Key" DisplayMemberPath="Value" ItemsSource="{Binding Source={StaticResource PurchaseMethode}}" >
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10">
+                        <Label Content="N° Chèque :   " Foreground='black' FontSize="14" />
+                        <TextBox x:Name="ChequeNumber" Style="{StaticResource placeHolder}" Tag="N° Chèque    " MaxLength="10" HorizontalAlignment="Left" Height="30" Width="100" Margin="75,0,0,4" TextWrapping="Wrap" Text="" VerticalAlignment="Top" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10">
+                        <Label Content="Montant Payé :   " Foreground='black' FontSize="14" />
+                        <TextBox x:Name="PayedAmount" Style="{StaticResource placeHolder}" Tag="Montant Payé    " MaxLength="10" HorizontalAlignment="Left" Height="30" Width="100" Margin="60,0,0,4"  TextWrapping="Wrap" Text="" VerticalAlignment="Top" />
+                    </StackPanel>
+                    
                 </StackPanel>
             </StackPanel>
         </StackPanel>
