@@ -25,6 +25,7 @@ namespace GestionStock.Front.com.App
         ProductControl ProductControl = new ProductControl();
         CategoryControl CategoryControl = new CategoryControl();
         ProviderCommandControl ProviderCommandControl = new ProviderCommandControl();
+        ClientCommandControl ClientCommandControl = new ClientCommandControl();
         public StartApp()
         {
             InitializeComponent();
@@ -49,6 +50,9 @@ namespace GestionStock.Front.com.App
 
             ProviderCommandControl.G_ProviderCommand.Height = (Grid_Height - 70) / 2;
             ProviderCommandControl.G_ProviderCommand.Width = Grid_With;
+
+            ClientCommandControl.G_StockValable.Height = (Grid_Height - 70) / 2;
+            ClientCommandControl.G_StockValable.Width = Grid_With;
         }
         private void ProductBtn_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -130,6 +134,28 @@ namespace GestionStock.Front.com.App
         {
             CommandBtn.Width = 70;
             CommandBtn.Height = 70;
+        }
+
+        private void ClientCommandBtn_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            MainPanel.Children.Clear();
+            if (MainPanel.Children.Count == 0)
+            {
+                MainPanel.Children.Add(ClientCommandControl);
+                //MainPanel.Children.Add(CategoryControl);
+            }
+        }
+
+        private void ClientCommandBtn_MouseEnter(object sender, MouseEventArgs e)
+        {
+            ClientCommandBtn.Width = 90;
+            ClientCommandBtn.Height = 90;
+        }
+
+        private void ClientCommandBtn_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ClientCommandBtn.Width = 70;
+            ClientCommandBtn.Height = 70;
         }
     }
 }

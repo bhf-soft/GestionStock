@@ -183,6 +183,25 @@ namespace GestionStock.Front.com.App.Pages
         {
             ProviderCommandLists.Stocker(G_ProviderCommand, PayedAmount.Text, PurchaseMethod.SelectedValue.ToString(), ChequeNumber.Text);
             initial();
+            ChequeNumber.Text = "";
+            PayedAmount.Text = "";
+        }
+
+        private void G_ProviderCommand_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                AmountForPay.Content = ProviderCommandLists.SetAmount(G_ProviderCommand);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erreur :" + ex.Message + "  \n " + ex.StackTrace);
+            }
+        }
+
+        public void WirteIntoDoc()
+        {
+
         }
     }
 

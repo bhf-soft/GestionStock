@@ -73,6 +73,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Back\com\App\Controllers\CategoryController.cs" />
+    <Compile Include="Back\com\App\Controllers\ClientCommandController.cs" />
     <Compile Include="Back\com\App\Controllers\ClientController.cs" />
     <Compile Include="Back\com\App\Controllers\ProductController.cs" />
     <Compile Include="Back\com\App\Controllers\ProviderCommandController.cs" />
@@ -103,6 +104,9 @@
     </Compile>
     <Compile Include="Front\com\App\Pages\CategoryForm.xaml.cs">
       <DependentUpon>CategoryForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Front\com\App\Pages\ClientCommandControl.xaml.cs">
+      <DependentUpon>ClientCommandControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Front\com\App\Pages\ClientForm.xaml.cs">
       <DependentUpon>ClientForm.xaml</DependentUpon>
@@ -157,6 +161,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Front\com\App\Pages\CategoryForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Front\com\App\Pages\ClientCommandControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

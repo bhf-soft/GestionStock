@@ -213,6 +213,44 @@ namespace GestionStock.Back.com.App.Controllers
             {
                 MessageBox.Show("Erreur :" + ex.Message + "  \n " + ex.StackTrace);
             }*/
+
+        }
+
+        public float SetAmount(DataGrid g)
+        {
+                DataRowView row = g.SelectedItem as DataRowView;
+                if (row != null)
+                {
+                        float TotalBill = 0;
+                        foreach (DataRowView selectedrows in g.SelectedItems)
+                        {
+                            Random r = new Random();
+                            ProviderBill providerBill = new ProviderBill();
+                            EnterStock enterStock = new EnterStock();
+                            string Cmd_PK = selectedrows[0].ToString();
+                            string Cmd_Product = selectedrows[1].ToString();
+                            string Cmd_Qte = selectedrows[2].ToString();
+                            string Cmd_Provider = selectedrows[3].ToString();
+                            string Cmd_User = selectedrows[4].ToString();
+
+                            Console.WriteLine(" Cmd_PK  : " + Cmd_PK + " Cmd_Product :" + Cmd_Product
+                                + " Cmd_Qte :" + Cmd_Qte + " Cmd_Provider : " + Cmd_Provider + " Cmd_User :" + Cmd_User);
+                            /////
+                            ///
+
+                            var q = crudctx.Product.Single(_ => _.Id.ToString().Equals(Cmd_Product)).Price.Value.ToString();
+
+                            TotalBill = TotalBill + (float.Parse(q) * float.Parse(Cmd_Qte));
+
+                            Console.WriteLine(" Total bill  : " + TotalBill);
+
+                        }
+                    return TotalBill;
+                }
+                else
+                {
+                    return 0;
+                }
         }
         public static Dictionary<string, string> getPurchaseMethod()
         {
