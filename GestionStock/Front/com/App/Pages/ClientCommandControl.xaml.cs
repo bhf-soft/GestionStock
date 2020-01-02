@@ -1,9 +1,14 @@
 ﻿using GestionStock.Back.com.App.Controllers;
 using GestionStock.Back.com.App.HelpersModels;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -42,7 +47,10 @@ namespace GestionStock.Front.com.App.Pages
             InitializeComponent();
             PagedTable.type = typeof(EnterStock);
             initial();
-            ClientCommandinitial();
+            ClientCommandinitial(0);
+            client_id.SelectedValue = 1;
+            clientCmd_id.SelectedValue = 1;
+            PurchaseMethod.SelectedValue = "Cash";
         }
         public void initial()
         {
@@ -52,13 +60,15 @@ namespace GestionStock.Front.com.App.Pages
             pagy();
         }
 
-        public void ClientCommandinitial()
+        public void ClientCommandinitial(int ClientId)
         {
             ClientCommandLists = new ClientCommandController();
-            ClientCmd = ClientCommandLists.CLIENTCMD.ToList<ClientCommand>();
+            if(ClientId == 0)
+                ClientCmd = ClientCommandLists.CLIENTCMD.ToList<ClientCommand>();
+            else 
+            ClientCmd = ClientCommandLists.CLIENTCMD.Where(a => a.Client_id == ClientId).ToList<ClientCommand>();
             myListCmd = ClientCmd;
             G_ClientCommand.ItemsSource = myListCmd;
-            client_id.SelectedValue = 1;
         }
 
         private void Backwards_Click(object sender, RoutedEventArgs e)
@@ -186,7 +196,7 @@ namespace GestionStock.Front.com.App.Pages
                 {
                     MessageBox.Show(Messages.SelectLineAlerte.Value);
                 }
-                ClientCommandinitial();
+                ClientCommandinitial(0);
                 initial();
             }
             catch (Exception ex)
@@ -213,70 +223,98 @@ namespace GestionStock.Front.com.App.Pages
 
         private void GenerateFacture_Click(object sender, RoutedEventArgs e)
         {
-           /* try
+           try
             {
-                DataRowView row = G_StockValable.SelectedItem as DataRowView;
-                if (row != null)
+
+                DataTable dt = ClientCommandController.GetClientCmd();
+
+                string MethodPay = PurchaseMethod.SelectedValue.ToString();
+                string ChequeNum = ChequeNumber.Text;
+                string ClientForPay = clientCmd_id.SelectedValue.ToString();
+
+                string extension = "pdf";
+                iTextSharp.text.Image jpg = iTextSharp.text.Image.GetInstance(@"img/Facture.jpeg");
+                jpg.ScaleToFit(2700, 770);
+                jpg.Alignment = iTextSharp.text.Image.UNDERLYING;
+                jpg.SetAbsolutePosition(20, 35);
+                MessageBoxResult M = MessageBox.Show("Etes-vous sûr de vouloir Sauvgarder la facture ?", "Avertissement", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                if (M == MessageBoxResult.Yes)
                 {
-                    for(int i = 0; i < G_ClientCommand.Items.Count; i++)
+                    SaveFileDialog dialog = new SaveFileDialog()
                     {
-                        string STKENTER_PK = G_ClientCommand.Items[0][0].ToString();
-                    }
-                    foreach (DataRowView selectedrows in G_StockValable.Items)
+                        DefaultExt = extension,
+                        Filter = String.Format("{1} PDF file | *.pdf", extension, "Pdf"),
+                        FilterIndex = 1
+                    };
+
+                    if (dialog.ShowDialog() == true)
                     {
-                        string STKENTER_PK = selectedrows[0].ToString();
-                        string STKENTER_ProductID = selectedrows[1].ToString();
-                        string STKENTER_QTE = selectedrows[2].ToString();
-                        string STKENTER_PROVIDERID = selectedrows[3].ToString();
-                        string STKENTER_USERID = selectedrows[4].ToString();
-                        string STKENTER_ENTERDATE = selectedrows[5].ToString();
+                        iTextSharp.text.Document doc = new iTextSharp.text.Document(PageSize.A4);
 
-                        /////
-                        ///
-                        clientCommand.Id = r.Next();
-                        clientCommand.Product_id = Convert.ToInt32(STKENTER_ProductID);
-                        clientCommand.Qte = Convert.ToInt32(ProductNbrPcs.Text);
-                        clientCommand.Client_id = Convert.ToInt32(client_id.SelectedValue.ToString());
-                        clientCommand.Users_id = Convert.ToInt32(STKENTER_USERID);
-                        clientCommand.IsDelivred = true;
-                        clientCommand.IsCancled = false;
-                        clientCommand.CmdDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
-                        clientCommand.ConfirmationDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
-
-                        var UpdatedorInserted = crudctx.EnterStock.Where(c => c.Id.ToString().Equals(STKENTER_PK)).FirstOrDefault();
-
-                        if (UpdatedorInserted.Qte >= clientCommand.Qte)
+                        try
                         {
-                            UpdatedorInserted.Qte = UpdatedorInserted.Qte - clientCommand.Qte;
-                            crudctx.ClientCommand.Add(clientCommand);
-                            crudctx.SaveChanges();
-                            MessageBox.Show("Commande Client Ajoutée ");
+                            PdfWriter.GetInstance(doc, new FileStream(dialog.FileName, FileMode.Create));
+                            doc.Open();
+                            doc.NewPage();
+                            doc.Add(jpg);
+                            doc.Add(new iTextSharp.text.Paragraph("\n \n \n \n \n \n "));
+                            doc.Add(new iTextSharp.text.Paragraph("hello "));
+                            doc.Add(new iTextSharp.text.Paragraph("cv "));
+                            doc.Close();
                         }
-                        else
+                        catch (Exception ex)
                         {
-                            MessageBox.Show("Stock Insifusant pour cette opération");
+                            MessageBox.Show(ex.Message, "Message");
+
                         }
-
-
-                        Console.WriteLine(" clientCommand.Id  : " + clientCommand.Id + " clientCommand.Product_id :" + clientCommand.Product_id
-                            + " clientCommand.Qte :" + clientCommand.Qte + " clientCommand.Client_id : " + clientCommand.Client_id +
-                            " clientCommand.Users_id :" + clientCommand.Users_id + " clientCommand.IsDelivred : " + clientCommand.IsDelivred +
-                            " clientCommand.CmdDate : " + clientCommand.CmdDate + " clientCommand.ConfirmationDate : " + clientCommand.ConfirmationDate);
-
-                        G_ClientCommand.ItemsSource = crudctx.ClientCommand.ToList();
                     }
                 }
                 else
                 {
-                    MessageBox.Show(Messages.SelectLineAlerte.Value);
+                    MessageBox.Show("Message");
                 }
-                ClientCommandinitial();
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    string Id = row["Id"].ToString();
+                    string Product = row["CMD_Product"].ToString();
+                    string Qte = row["CMD_Qte"].ToString();
+                    string Client = row["CMD_Client"].ToString();
+                    string Isdelivred = row["CMDIsDelivred"].ToString();
+                    string Iscancled = row["CMDIsCancled"].ToString();
+                    string CmdDate = row["CMD_CmdDate"].ToString();
+                    string ConfirmDate = row["CMD_ConfirmationDate"].ToString();
+                    string CancelDate = row["CMD_CancelDate"].ToString();
+
+                    if(Client.Equals(ClientCommandController.GetClientByID(Convert.ToInt32(ClientForPay))))
+                    Console.WriteLine(" Id :" + Id + " Product : "+ Product + " Qte : "+Qte + " Client :"+ Client+ " Isdelivred : "+ Isdelivred + " Iscancled :"+ Iscancled + " CmdDate : "+ CmdDate + " ConfirmDate :"+ ConfirmDate+ " CancelDate :" +CancelDate + " MethodPay :"+ MethodPay+ " ChequeNum :"+ ChequeNum+ " ClientForPay :"+ ClientForPay);
+                }
+                    
+                ClientCommandinitial(Convert.ToInt32(ClientForPay));
                 initial();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(" Erreur : \n " + ex.StackTrace + " \n \n " + ex.Message);
-            } */
+            } 
+        }
+
+        private void PurchaseMethod_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(PurchaseMethod.SelectedValue.ToString().Equals("Chèque"))
+            {
+                ChequeNumber.Visibility = Visibility.Visible;
+            }else
+            {
+                ChequeNumber.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void ClientCmd_id_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string ClientForPay = clientCmd_id.SelectedValue.ToString();
+            Console.WriteLine("Client :" + ClientForPay);
+            ClientCommandinitial(Convert.ToInt32(ClientForPay));
         }
     }
     public static class CollectionDataClient
@@ -284,6 +322,10 @@ namespace GestionStock.Front.com.App.Pages
         public static Dictionary<string, string> GetClient()
         {
             return ClientCommandController.GetClient();
+        }
+        public static Dictionary<string, string> GetPurchaseMethod()
+        {
+            return ProviderCommandController.getPurchaseMethod();
         }
     }
 }

@@ -8,6 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <ObjectDataProvider x:Key="clients" ObjectType="{x:Type local:CollectionDataClient}" MethodName="GetClient"/>
+        <ObjectDataProvider x:Key="PurchaseMethode" ObjectType="{x:Type local:CollectionDataClient}" MethodName="GetPurchaseMethod"/>
     </UserControl.Resources>
     <Grid>
         <StackPanel x:Name="stack" Orientation="Horizontal" Height="auto" Width="auto" HorizontalAlignment="Center">
@@ -60,8 +61,8 @@
                         <Label x:Name="ActionsAlerteLabel" Visibility="Hidden" Content="vous etes pas un admin !" HorizontalAlignment="Center" VerticalAlignment="Bottom" Foreground="Red"/>
                     </StackPanel>
 
-                        <StackPanel Orientation="Vertical" Margin="0,0,0,30">
-                            
+                    <StackPanel Orientation="Vertical" Margin="0,0,0,30">
+
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10">
                             <Label Content="Client   :   " Foreground='black' FontSize="14" />
                             <ComboBox x:Name="client_id" Grid.Row="4" Grid.Column="1" Margin="15,0" Height="30" HorizontalAlignment="Stretch" VerticalAlignment="Center" SelectedValuePath="Key" DisplayMemberPath="Value" ItemsSource="{Binding Source={StaticResource clients}}" >
@@ -70,8 +71,8 @@
                             <TextBox x:Name="ProductNbrPcs" Style="{StaticResource placeHolder}" Tag="Nombre de pièces    " MaxLength="10" HorizontalAlignment="Left" Height="30" Margin="1,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" />
                             <Button x:Name='AddToBasket' Padding='4' Content='Ajouter au panier ' Margin='25,0' Click='AddToBasket_Click'></Button>
                         </StackPanel>
-                            
-                        </StackPanel>
+
+                    </StackPanel>
                     <DataGrid  AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="false" x:Name="G_ClientCommand" Height="auto" Width="auto"
                                ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Visible" RowStyle="{StaticResource rowStyle}" CellStyle="{StaticResource cellStyle}" SelectionChanged="G_StockValable_SelectionChanged" LoadingRow="G_ClientCommand_LoadingRow">
 
@@ -90,10 +91,15 @@
                         </DataGrid.Columns>
                     </DataGrid>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10">
-                        <Button x:Name='GenerateFacture' Padding='4' Content=' Générer Facture ' Margin='0,20,0,0' Click='GenerateFacture_Click'></Button>
+                        <Label Content="Facturer par client  :   " Foreground='black' FontSize="14" Margin='0,20,0,0' />
+                        <ComboBox x:Name="clientCmd_id" Grid.Row="4" Grid.Column="1" Margin="15,0" Height="30" HorizontalAlignment="Stretch" VerticalAlignment="Center" SelectedValuePath="Key" DisplayMemberPath="Value" ItemsSource="{Binding Source={StaticResource clients}}" SelectionChanged="ClientCmd_id_SelectionChanged">
+                        </ComboBox>
+                        <Label Content="Methode de Paiment  :   " Foreground='black' FontSize="14" Margin='0,20,0,0' />
+                        <ComboBox x:Name="PurchaseMethod" Margin='20,20,0,0' Height="30" Width="100" HorizontalAlignment="Stretch" VerticalAlignment="Center" SelectedValuePath="Key" DisplayMemberPath="Value" ItemsSource="{Binding Source={StaticResource PurchaseMethode}}" SelectionChanged="PurchaseMethod_SelectionChanged"/>
+                        <TextBox Visibility="Hidden" x:Name="ChequeNumber" Style="{StaticResource placeHolder}" Tag="N° Chèque    " MaxLength="10" HorizontalAlignment="Left" Height="30" Width="100" Margin='20,20,0,0' TextWrapping="Wrap" Text="" VerticalAlignment="Top" />
+
+                        <Button x:Name='GenerateFacture' Padding='4' Content=' Générer Facture ' Margin='20,20,0,0' Click='GenerateFacture_Click'/>
                     </StackPanel>
-
-
 
                 </StackPanel>
             </StackPanel>

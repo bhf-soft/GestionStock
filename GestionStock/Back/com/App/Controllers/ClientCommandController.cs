@@ -131,5 +131,68 @@ namespace GestionStock.Back.com.App.Controllers
             }
             return map;
         }
+
+        public static DataTable GetClientCmd()
+        {
+            DataTable table = new DataTable();
+            DataColumn dc = table.Columns.Add("Id", typeof(int));
+            table.Columns.Add("CMD_Product", typeof(string));
+            table.Columns.Add("CMD_Qte", typeof(int));
+            table.Columns.Add("CMD_Client", typeof(string));
+            //table.Columns.Add("CMD_User", typeof(string));
+            table.Columns.Add("CMDIsDelivred", typeof(Boolean));
+            table.Columns.Add("CMDIsCancled", typeof(Boolean));
+            table.Columns.Add("CMD_CmdDate", typeof(DateTime));
+            table.Columns.Add("CMD_ConfirmationDate", typeof(DateTime));
+            table.Columns.Add("CMD_CancelDate", typeof(DateTime));
+
+            using (StockDATAEntities context = new StockDATAEntities())
+            {
+                var query2 = from i in context.ClientCommand
+                             select new { i.Id,
+                                          i.Product.Designation,
+                                          i.Qte,
+                                          i.Clients.FullName,
+                                          //i.Users.FullName
+                                          i.IsDelivred,
+                                          i.IsCancled,
+                                          i.CmdDate,
+                                          i.ConfirmationDate,
+                                          i.CancelDate
+                                          };
+
+                query2.ToList().ForEach((n) =>
+                {
+                    DataRow row = table.NewRow();
+
+                    row.SetField<int>("Id", n.Id);
+                    row.SetField<string>("CMD_Product", n.Designation);
+                    row.SetField<int?>("CMD_Qte", n.Qte);
+                    row.SetField<string>("CMD_Client", n.FullName);
+                    row.SetField<bool?>("CMDIsDelivred", n.IsDelivred);
+                    row.SetField<bool?>("CMDIsCancled", n.IsCancled);
+                    row.SetField<DateTime?>("CMD_CmdDate", n.CmdDate);
+                    row.SetField<DateTime?>("CMD_ConfirmationDate", n.ConfirmationDate);
+                    row.SetField<DateTime?>("CMD_CancelDate", n.CancelDate);
+
+                    table.Rows.Add(row);
+                });
+
+            }
+            return table;
+        }
+
+        public static string GetClientByID(int id)
+        {
+            string clientName = "";
+            var q = (from a in StkInfo.Clients.Where(a => a.Id == id)
+                     select new
+                     {
+                         name = a.FullName
+                     }).Distinct().ToList();
+
+            clientName = q[0].name;
+            return clientName;
+        }
     }
 }
