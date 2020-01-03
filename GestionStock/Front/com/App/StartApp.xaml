@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GestionStock.Front.com.App"
         mc:Ignorable="d"
-        Title="StartApp" Height="650" Width="1000" Background="WhiteSmoke" WindowStartupLocation="CenterScreen" SizeChanged="Window_SizeChanged">
+        Title="Gestion de Stock" Height="650" Width="1000" Background="WhiteSmoke" WindowStartupLocation="CenterScreen" SizeChanged="Window_SizeChanged">
     <Grid>
 
         <StackPanel Orientation="Horizontal" Background="#2ca3de" Height="6" VerticalAlignment="Top">
@@ -16,10 +16,10 @@
         
         <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
             <Image x:Name="ClientsBtn" Source="../../../Assets/imgs/Clients.png" Margin="8,0,0,5" Stretch="UniformToFill" VerticalAlignment="Bottom" Width="70" Height="70" MouseDown="ClientsBtn_MouseDown" MouseEnter="ClientsBtn_MouseEnter" MouseLeave="ClientsBtn_MouseLeave"/>
-            <Image x:Name="ProductBtn" Source="../../../Assets/imgs/Clients.png" Margin="8,0,0,5" Stretch="UniformToFill" Width="70" Height="70" VerticalAlignment="Bottom" MouseDown="ProductBtn_MouseDown" MouseEnter="ProductBtn_MouseEnter" MouseLeave="ProductBtn_MouseLeave" />
-            <Image x:Name="CommandBtn" Source="../../../Assets/imgs/ProductCrud.png" Margin="8,0,0,5" Stretch="UniformToFill" Width="70" Height="70" VerticalAlignment="Bottom" MouseDown="CommandBtn_MouseDown" MouseEnter="CommandBtn_MouseEnter" MouseLeave="CommandBtn_MouseLeave"/>
-            <Image x:Name="ClientCommandBtn" Source="../../../Assets/imgs/ProductCrud.png" Margin="8,0,0,5" Stretch="UniformToFill" Width="70" Height="70" VerticalAlignment="Bottom" MouseDown="ClientCommandBtn_MouseDown" MouseEnter="ClientCommandBtn_MouseEnter" MouseLeave="ClientCommandBtn_MouseLeave"/>
-            <Image x:Name="ClientCommandCancelBtn" Source="../../../Assets/imgs/ProductCrud.png" Margin="8,0,0,5" Stretch="UniformToFill" Width="70" Height="70" VerticalAlignment="Bottom" MouseDown="ClientCommandCancelBtn_MouseDown" MouseEnter="ClientCommandCancelBtn_MouseEnter" MouseLeave="ClientCommandCancelBtn_MouseLeave"/>
+            <Image x:Name="ProductBtn" Source="../../../Assets/imgs/ProductCrud.png" Margin="8,0,0,5" Stretch="UniformToFill" Width="70" Height="70" VerticalAlignment="Bottom" MouseDown="ProductBtn_MouseDown" MouseEnter="ProductBtn_MouseEnter" MouseLeave="ProductBtn_MouseLeave" />
+            <Image x:Name="CommandBtn" Source="../../../Assets/imgs/providerStk.png" Margin="8,0,0,5" Stretch="UniformToFill" Width="70" Height="70" VerticalAlignment="Bottom" MouseDown="CommandBtn_MouseDown" MouseEnter="CommandBtn_MouseEnter" MouseLeave="CommandBtn_MouseLeave"/>
+            <Image x:Name="ClientCommandBtn" Source="../../../Assets/imgs/Clientcmd.png" Margin="8,0,0,5" Stretch="UniformToFill" Width="70" Height="70" VerticalAlignment="Bottom" MouseDown="ClientCommandBtn_MouseDown" MouseEnter="ClientCommandBtn_MouseEnter" MouseLeave="ClientCommandBtn_MouseLeave"/>
+            <Image x:Name="ClientCommandCancelBtn" Source="../../../Assets/imgs/CancelCmd.png" Margin="8,0,0,5" Stretch="UniformToFill" Width="70" Height="70" VerticalAlignment="Bottom" MouseDown="ClientCommandCancelBtn_MouseDown" MouseEnter="ClientCommandCancelBtn_MouseEnter" MouseLeave="ClientCommandCancelBtn_MouseLeave"/>
 
         </StackPanel>
     </Grid>

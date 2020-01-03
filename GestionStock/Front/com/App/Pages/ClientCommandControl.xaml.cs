@@ -323,6 +323,7 @@ namespace GestionStock.Front.com.App.Pages
                     
                 ClientCommandinitial(Convert.ToInt32(ClientForPay));
                 initial();
+                MessageBox.Show("Facture Bien Enregistrée");
             }
             catch (Exception ex)
             {
@@ -482,13 +483,14 @@ namespace GestionStock.Front.com.App.Pages
                 }
                 else
                 {
-                    MessageBox.Show("Message");
+                    
                 }
 
 
 
                 ClientCommandinitial(Convert.ToInt32(ClientForPay));
                 initial();
+                MessageBox.Show("Bon de Commande Bien Enregistrée");
             }
             catch (Exception ex)
             {

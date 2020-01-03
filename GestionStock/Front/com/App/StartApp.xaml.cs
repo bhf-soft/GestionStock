@@ -68,6 +68,8 @@ namespace GestionStock.Front.com.App
             {
                 MainPanel.Children.Add(ProductControl);
                 MainPanel.Children.Add(CategoryControl);
+                ProductControl.initial();
+                CategoryControl.initial();
             }
         }
 
@@ -85,6 +87,8 @@ namespace GestionStock.Front.com.App
             {
                 MainPanel.Children.Add(ClientControl);
                 MainPanel.Children.Add(ProviderControl);
+                ClientControl.initial();
+                ProviderControl.initial();
             }
         }
         private void Btn_MouseEnter(object sender, MouseEventArgs e)
@@ -127,6 +131,7 @@ namespace GestionStock.Front.com.App
             if (MainPanel.Children.Count == 0)
             {
                 MainPanel.Children.Add(ProviderCommandControl);
+                ProviderCommandControl.initial();
                 //MainPanel.Children.Add(ProviderControl);
             }
         }
@@ -149,6 +154,8 @@ namespace GestionStock.Front.com.App
             if (MainPanel.Children.Count == 0)
             {
                 MainPanel.Children.Add(ClientCommandControl);
+                ClientCommandControl.initial();
+                ClientCommandControl.ClientCommandinitial(0);
                 //MainPanel.Children.Add(CategoryControl);
             }
         }
@@ -171,6 +178,7 @@ namespace GestionStock.Front.com.App
             if (MainPanel.Children.Count == 0)
             {
                 MainPanel.Children.Add(CmdCancelControl);
+                CmdCancelControl.initial();
                 //MainPanel.Children.Add(CategoryControl);
             }
         }

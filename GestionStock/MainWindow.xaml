@@ -28,11 +28,11 @@
             <!--<TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" Foreground="#707070"><Run Text="it will take less than 1 minute."/></TextBlock>-->
             <StackPanel Margin="0,15" Orientation="Horizontal">
                 <materialDesign:PackIcon Kind="Account" VerticalAlignment="Center" Foreground="#707070"/>
-                <TextBox materialDesign:HintAssist.Hint="E-mail" Width="250" Margin="5"/>
+                <TextBox x:Name="Login" materialDesign:HintAssist.Hint="E-mail" Width="250" Margin="5"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <materialDesign:PackIcon Kind="Key" VerticalAlignment="Center" Foreground="#707070"/>
-                <PasswordBox materialDesign:HintAssist.Hint="Mot de passe" Width="250" Margin="5"/>
+                <PasswordBox x:Name="Password" materialDesign:HintAssist.Hint="Mot de passe" Width="250" Margin="5"/>
             </StackPanel>
             <Grid>
                 <CheckBox Content="Reste Connectée" Margin="5,10" Foreground="#707070"/>

@@ -83,7 +83,6 @@
                         <Menu x:Name="MenuActionse"  HorizontalAlignment='Left' Margin="0,0,0,0" Background="#F0F0F0" Width="155">
                             <MenuItem Header="Actions" Width="155" Height="24">
                                 <MenuItem Header="Supprimer Commande" x:Name="delete" Click="Delete_Click"/>
-                                <MenuItem Header="Annulée Commande" x:Name="CancelCmd" Click="CancelCmd_Click"/>
                             </MenuItem>
                         </Menu>
                     </Border>

@@ -130,9 +130,10 @@ namespace GestionStock.Back.com.App.Controllers
                     if (d == MessageBoxResult.Yes)
                     {
                         float TotalBill = 0;
+                        Random r = new Random();
                         foreach (DataRowView selectedrows in g.SelectedItems)
                         {
-                            Random r = new Random();
+                            
                             ProviderBill providerBill = new ProviderBill();
                             EnterStock enterStock = new EnterStock();
                             string Cmd_PK = selectedrows[0].ToString();
@@ -145,7 +146,7 @@ namespace GestionStock.Back.com.App.Controllers
                                 + " Cmd_Qte :" + Cmd_Qte + " Cmd_Provider : " + Cmd_Provider + " Cmd_User :" + Cmd_User);
                             /////
                             ///
-                            providerBill.Id = r.Next();
+                            providerBill.Id = r.Next(0,1000000000);
                             providerBill.ProviderCommand_id = Convert.ToInt32(Cmd_PK);
                             providerBill.Users_id = Convert.ToInt32(Cmd_User);
                             providerBill.PurchaseDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
@@ -169,7 +170,7 @@ namespace GestionStock.Back.com.App.Controllers
                             crudctx.SaveChanges();
 
                             // Stock enter 
-                            enterStock.Id = r.Next();
+                            enterStock.Id = r.Next(0, 1000000000);
                             enterStock.Product_id = Convert.ToInt32(Cmd_Product);
                             enterStock.Qte = Convert.ToInt32(Cmd_Qte);
                             enterStock.Provider_id = Convert.ToInt32(Cmd_Provider);
@@ -209,10 +210,10 @@ namespace GestionStock.Back.com.App.Controllers
             {
                 MessageBox.Show(Messages.SelectLineAlerte.Value);
             }
-            /*catch (Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Erreur :" + ex.Message + "  \n " + ex.StackTrace);
-            }*/
+            }
 
         }
 

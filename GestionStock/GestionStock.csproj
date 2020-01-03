@@ -36,6 +36,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>stk.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
@@ -297,6 +300,13 @@
   <ItemGroup>
     <Resource Include="Assets\imgs\Clients.png" />
     <Resource Include="Assets\imgs\Facture.jpeg" />
+    <Resource Include="Assets\imgs\product.png" />
+    <Resource Include="Assets\imgs\provider.png" />
+    <Resource Include="Assets\imgs\providers.png" />
+    <Resource Include="Assets\imgs\providerStk.png" />
+    <Resource Include="Assets\imgs\clientcmd.png" />
+    <Resource Include="Assets\imgs\CancelCmd.png" />
+    <Resource Include="stk.ico" />
     <Content Include="StockDATAModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>StockDATAModel.Context.cs</LastGenOutput>
