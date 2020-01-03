@@ -26,6 +26,7 @@ namespace GestionStock.Front.com.App
         CategoryControl CategoryControl = new CategoryControl();
         ProviderCommandControl ProviderCommandControl = new ProviderCommandControl();
         ClientCommandControl ClientCommandControl = new ClientCommandControl();
+        CmdCancelControl CmdCancelControl = new CmdCancelControl();
         public StartApp()
         {
             InitializeComponent();
@@ -51,8 +52,14 @@ namespace GestionStock.Front.com.App
             ProviderCommandControl.G_ProviderCommand.Height = (Grid_Height - 70) / 2;
             ProviderCommandControl.G_ProviderCommand.Width = Grid_With;
 
-            ClientCommandControl.G_StockValable.Height = (Grid_Height - 70) / 2;
+            ClientCommandControl.G_StockValable.Height = (Grid_Height - 100) / 2;
             ClientCommandControl.G_StockValable.Width = Grid_With;
+
+            ClientCommandControl.G_CL_CMD.Height = (Grid_Height - 90) / 2;
+            ClientCommandControl.G_CL_CMD.Width = Grid_With;
+
+            CmdCancelControl.G_CL_CMD.Height = (Grid_Height - 70) / 2;
+            CmdCancelControl.G_CL_CMD.Width = Grid_With;
         }
         private void ProductBtn_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -156,6 +163,28 @@ namespace GestionStock.Front.com.App
         {
             ClientCommandBtn.Width = 70;
             ClientCommandBtn.Height = 70;
+        }
+
+        private void ClientCommandCancelBtn_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            MainPanel.Children.Clear();
+            if (MainPanel.Children.Count == 0)
+            {
+                MainPanel.Children.Add(CmdCancelControl);
+                //MainPanel.Children.Add(CategoryControl);
+            }
+        }
+
+        private void ClientCommandCancelBtn_MouseEnter(object sender, MouseEventArgs e)
+        {
+            ClientCommandCancelBtn.Width = 90;
+            ClientCommandCancelBtn.Height = 90;
+        }
+
+        private void ClientCommandCancelBtn_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ClientCommandCancelBtn.Width = 70;
+            ClientCommandCancelBtn.Height = 70;
         }
     }
 }

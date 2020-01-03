@@ -78,6 +78,7 @@
     <Compile Include="Back\com\App\Controllers\CategoryController.cs" />
     <Compile Include="Back\com\App\Controllers\ClientCommandController.cs" />
     <Compile Include="Back\com\App\Controllers\ClientController.cs" />
+    <Compile Include="Back\com\App\Controllers\CmdCancelController.cs" />
     <Compile Include="Back\com\App\Controllers\ProductController.cs" />
     <Compile Include="Back\com\App\Controllers\ProviderCommandController.cs" />
     <Compile Include="Back\com\App\Controllers\ProviderController.cs" />
@@ -113,6 +114,9 @@
     </Compile>
     <Compile Include="Front\com\App\Pages\ClientForm.xaml.cs">
       <DependentUpon>ClientForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Front\com\App\Pages\CmdCancelControl.xaml.cs">
+      <DependentUpon>CmdCancelControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Front\com\App\Pages\ProductForm.xaml.cs">
       <DependentUpon>ProductForm.xaml</DependentUpon>
@@ -176,6 +180,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Front\com\App\Pages\ClientForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Front\com\App\Pages\CmdCancelControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

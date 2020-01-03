@@ -18,6 +18,7 @@ namespace GestionStock.Back.com.App.Controllers
         public static StockDATAEntities StkInfo = new StockDATAEntities();
         private List<EnterStock> enterStock;
         private List<ClientCommand> clientCommand;
+        static StockDATAEntities crudctxe = new StockDATAEntities();
 
         public ClientCommandController()
         {
@@ -77,43 +78,7 @@ namespace GestionStock.Back.com.App.Controllers
 
         }
 
-        public void delete(DataGrid g)
-        {
-            try
-            {
-                DataRowView row = g.SelectedItem as DataRowView;
-                if (row != null)
-                {
-                    MessageBoxResult d = MessageBox.Show(Messages.DeleteAlerteText.Value, Messages.DeleteAlerteTitle.Value, MessageBoxButton.YesNo, MessageBoxImage.Warning);
-                    if (d == MessageBoxResult.Yes)
-                    {
-                        foreach (DataRowView selectedrows in g.SelectedItems)
-                        {
-                            string PK = selectedrows[0].ToString();
-                            Console.WriteLine("my pk " + PK);
-
-                            var deleteenterStock = crudctx.EnterStock.Where(m => m.Id.ToString().Equals(PK)).Single();
-                            crudctx.EnterStock.Remove(deleteenterStock);
-                            crudctx.SaveChanges();
-                        }
-                        MessageBox.Show(Messages.ProductDeleted.Value);
-                        g.ItemsSource = crudctx.EnterStock.ToList();
-                    }
-                }
-                else
-                {
-                    MessageBox.Show(Messages.SelectLineAlerte.Value);
-                }
-            }
-            catch (NullReferenceException)
-            {
-                MessageBox.Show(Messages.SelectLineAlerte.Value);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Erreur :" + ex.Message + "  \n " + ex.StackTrace);
-            }
-        }
+        
 
         public static Dictionary<string, string> GetClient()
         {
@@ -131,7 +96,24 @@ namespace GestionStock.Back.com.App.Controllers
             }
             return map;
         }
-
+        public static void delete(int id)
+        {
+            try
+            {
+                    MessageBoxResult d = MessageBox.Show(Messages.DeleteAlerteText.Value, Messages.DeleteAlerteTitle.Value, MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                    if (d == MessageBoxResult.Yes)
+                    {
+                    var deleteCmd = crudctxe.ClientCommand.Where(m => m.Client_id.ToString().Equals(id.ToString()));
+                        crudctxe.ClientCommand.RemoveRange(deleteCmd);
+                        crudctxe.SaveChanges();
+                        MessageBox.Show(" Commande Supprimée ");
+                    }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erreur :" + ex.Message + "  \n " + ex.StackTrace);
+            }
+        }
         public static DataTable GetClientCmd()
         {
             DataTable table = new DataTable();
@@ -139,7 +121,7 @@ namespace GestionStock.Back.com.App.Controllers
             table.Columns.Add("CMD_Product", typeof(string));
             table.Columns.Add("CMD_Qte", typeof(int));
             table.Columns.Add("CMD_Client", typeof(string));
-            //table.Columns.Add("CMD_User", typeof(string));
+            table.Columns.Add("CMD_ProductPrice", typeof(string));
             table.Columns.Add("CMDIsDelivred", typeof(Boolean));
             table.Columns.Add("CMDIsCancled", typeof(Boolean));
             table.Columns.Add("CMD_CmdDate", typeof(DateTime));
@@ -153,7 +135,7 @@ namespace GestionStock.Back.com.App.Controllers
                                           i.Product.Designation,
                                           i.Qte,
                                           i.Clients.FullName,
-                                          //i.Users.FullName
+                                          i.Product.Price,
                                           i.IsDelivred,
                                           i.IsCancled,
                                           i.CmdDate,
@@ -169,6 +151,7 @@ namespace GestionStock.Back.com.App.Controllers
                     row.SetField<string>("CMD_Product", n.Designation);
                     row.SetField<int?>("CMD_Qte", n.Qte);
                     row.SetField<string>("CMD_Client", n.FullName);
+                    row.SetField<float?>("CMD_ProductPrice", n.Price);
                     row.SetField<bool?>("CMDIsDelivred", n.IsDelivred);
                     row.SetField<bool?>("CMDIsCancled", n.IsCancled);
                     row.SetField<DateTime?>("CMD_CmdDate", n.CmdDate);

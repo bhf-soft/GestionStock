@@ -1,9 +1,11 @@
 ﻿using GestionStock.Back.com.App.Controllers;
 using GestionStock.Back.com.App.HelpersModels;
 using iTextSharp.text;
+using iTextSharp.text.html;
 using iTextSharp.text.pdf;
 using Microsoft.Win32;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -68,7 +70,7 @@ namespace GestionStock.Front.com.App.Pages
             else 
             ClientCmd = ClientCommandLists.CLIENTCMD.Where(a => a.Client_id == ClientId).ToList<ClientCommand>();
             myListCmd = ClientCmd;
-            G_ClientCommand.ItemsSource = myListCmd;
+            G_CL_CMD.ItemsSource = myListCmd;
         }
 
         private void Backwards_Click(object sender, RoutedEventArgs e)
@@ -189,7 +191,7 @@ namespace GestionStock.Front.com.App.Pages
                             " clientCommand.Users_id :" + clientCommand.Users_id + " clientCommand.IsDelivred : " + clientCommand.IsDelivred +
                             " clientCommand.CmdDate : " + clientCommand.CmdDate + " clientCommand.ConfirmationDate : " + clientCommand.ConfirmationDate);
 
-                        G_ClientCommand.ItemsSource = crudctx.ClientCommand.ToList();
+                        G_CL_CMD.ItemsSource = crudctx.ClientCommand.ToList();
                     }
                 }
                 else
@@ -205,32 +207,17 @@ namespace GestionStock.Front.com.App.Pages
             }
         }
 
-        private void Stocker_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Supprimer_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void G_ClientCommand_LoadingRow(object sender, DataGridRowEventArgs e)
-        {
-           /* var row = e.Row;
-           row.Background = new SolidColorBrush(Colors.Red);*/
-        }
-
         private void GenerateFacture_Click(object sender, RoutedEventArgs e)
         {
            try
-            {
+           {
 
                 DataTable dt = ClientCommandController.GetClientCmd();
 
                 string MethodPay = PurchaseMethod.SelectedValue.ToString();
                 string ChequeNum = ChequeNumber.Text;
                 string ClientForPay = clientCmd_id.SelectedValue.ToString();
+                double TotalPayed=0;
 
                 string extension = "pdf";
                 iTextSharp.text.Image jpg = iTextSharp.text.Image.GetInstance(@"img/Facture.jpeg");
@@ -249,17 +236,75 @@ namespace GestionStock.Front.com.App.Pages
 
                     if (dialog.ShowDialog() == true)
                     {
-                        iTextSharp.text.Document doc = new iTextSharp.text.Document(PageSize.A4);
+                        iTextSharp.text.Document doc = new iTextSharp.text.Document(PageSize.A4, 0f, 0f, 140f, 100f);
 
                         try
                         {
-                            PdfWriter.GetInstance(doc, new FileStream(dialog.FileName, FileMode.Create));
+                            PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(dialog.FileName, FileMode.Create));
                             doc.Open();
-                            doc.NewPage();
                             doc.Add(jpg);
-                            doc.Add(new iTextSharp.text.Paragraph("\n \n \n \n \n \n "));
-                            doc.Add(new iTextSharp.text.Paragraph("hello "));
-                            doc.Add(new iTextSharp.text.Paragraph("cv "));
+                            PdfPTable table = new PdfPTable(10);
+                            addCell(table, "Produit", 0,"");
+                            addCell(table, "Qte", 0, "");
+                            addCell(table, "Client", 0, "");
+
+                            addCell(table, "Confirmée", 0, "");
+                            addCell(table, "Annulée", 0, "");
+                            addCell(table, "Date Commande", 0, "");
+
+                            addCell(table, "Date Confirmation", 0, "");
+                            addCell(table, "Date Annulation", 0, "");
+                            addCell(table, "Méthode de paiment", 0, "");
+
+                            addCell(table, "N° Chèque", 0, "");
+
+                            foreach (DataRow row in dt.Rows)
+                            {
+                                string Id = row["Id"].ToString();
+                                string Product = row["CMD_Product"].ToString();
+                                string Qte = row["CMD_Qte"].ToString();
+                                string Client = row["CMD_Client"].ToString();
+                                string ProductPrice = row["CMD_ProductPrice"].ToString();
+                                string Isdelivred = row["CMDIsDelivred"].ToString();
+                                string Iscancled = row["CMDIsCancled"].ToString();
+                                string CmdDate = row["CMD_CmdDate"].ToString();
+                                string ConfirmDate = row["CMD_ConfirmationDate"].ToString();
+                                string CancelDate = row["CMD_CancelDate"].ToString();
+
+                                
+                                if (Client.Equals(ClientCommandController.GetClientByID(Convert.ToInt32(ClientForPay))))
+                                {
+                                    string state = "";
+                                    if (Iscancled.Equals("True"))
+                                    {
+                                        state = "True";
+                                    }
+                                    addCell(table, Product, 0,state);
+                                    addCell(table, Qte, 0, state);
+                                    addCell(table, Client, 0, state);
+
+                                    addCell(table, Isdelivred, 0, state);
+                                    addCell(table, Iscancled, 0, state);
+                                    addCell(table, CmdDate, 0, state);
+
+                                    addCell(table, ConfirmDate, 0, state);
+                                    addCell(table, CancelDate, 0, state);
+                                    addCell(table, MethodPay, 0, state);
+
+                                    addCell(table, ChequeNum, 0, state);
+
+                                    Console.WriteLine(" Id :" + Id + " Product : " + Product + " ProductPrice : "+ ProductPrice + " Qte : " + Qte + " Client :" + Client + " Isdelivred : " + Isdelivred + " Iscancled :" + Iscancled + " CmdDate : " + CmdDate + " ConfirmDate :" + ConfirmDate + " CancelDate :" + CancelDate + " MethodPay :" + MethodPay + " ChequeNum :" + ChequeNum + " ClientForPay :" + ClientForPay);
+                                    if(!String.IsNullOrEmpty(ProductPrice) && !String.IsNullOrEmpty(Qte) && Iscancled.Equals("False"))
+                                    TotalPayed = TotalPayed + ((float.Parse(ProductPrice)) * (Convert.ToInt32(Qte)));
+                                }
+                            }
+                            Font DateFont = new Font(Font.FontFamily.TIMES_ROMAN, 09, Font.NORMAL, iTextSharp.text.BaseColor.BLACK);
+                            doc.Add(new Phrase("      Salé Le  " + DateTime.Now.ToString("yyyy-MM-dd HH:mm"), DateFont));
+                            doc.Add(table);
+
+                            doc.Add(new Phrase(" \n        TVA  :   0.00 DH TTC"));
+                            doc.Add(new Phrase(" \n \n         Total Facture à payer :     "+ Math.Round(TotalPayed, 2) + "      DH TTC"));
+
                             doc.Close();
                         }
                         catch (Exception ex)
@@ -274,21 +319,7 @@ namespace GestionStock.Front.com.App.Pages
                     MessageBox.Show("Message");
                 }
 
-                foreach (DataRow row in dt.Rows)
-                {
-                    string Id = row["Id"].ToString();
-                    string Product = row["CMD_Product"].ToString();
-                    string Qte = row["CMD_Qte"].ToString();
-                    string Client = row["CMD_Client"].ToString();
-                    string Isdelivred = row["CMDIsDelivred"].ToString();
-                    string Iscancled = row["CMDIsCancled"].ToString();
-                    string CmdDate = row["CMD_CmdDate"].ToString();
-                    string ConfirmDate = row["CMD_ConfirmationDate"].ToString();
-                    string CancelDate = row["CMD_CancelDate"].ToString();
-
-                    if(Client.Equals(ClientCommandController.GetClientByID(Convert.ToInt32(ClientForPay))))
-                    Console.WriteLine(" Id :" + Id + " Product : "+ Product + " Qte : "+Qte + " Client :"+ Client+ " Isdelivred : "+ Isdelivred + " Iscancled :"+ Iscancled + " CmdDate : "+ CmdDate + " ConfirmDate :"+ ConfirmDate+ " CancelDate :" +CancelDate + " MethodPay :"+ MethodPay+ " ChequeNum :"+ ChequeNum+ " ClientForPay :"+ ClientForPay);
-                }
+                
                     
                 ClientCommandinitial(Convert.ToInt32(ClientForPay));
                 initial();
@@ -297,6 +328,24 @@ namespace GestionStock.Front.com.App.Pages
             {
                 MessageBox.Show(" Erreur : \n " + ex.StackTrace + " \n \n " + ex.Message);
             } 
+        }
+
+        private static void addCell(PdfPTable table, string text, int rowspan,string IsCancled)
+        {
+            BaseColor myColor;
+            
+            BaseFont bfTimes = BaseFont.CreateFont(BaseFont.TIMES_ROMAN, BaseFont.CP1252, false);
+            iTextSharp.text.Font times = new iTextSharp.text.Font(bfTimes, 8, iTextSharp.text.Font.NORMAL, iTextSharp.text.BaseColor.BLACK);
+
+            PdfPCell cell = new PdfPCell(new Phrase(text, times));
+            cell.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
+            cell.VerticalAlignment = PdfPCell.ALIGN_MIDDLE;
+            if (IsCancled.Equals("True"))
+            {
+                myColor = WebColors.GetRGBColor("#e35252");
+                cell.BackgroundColor = myColor;
+            }            
+            table.AddCell(cell);
         }
 
         private void PurchaseMethod_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -315,6 +364,212 @@ namespace GestionStock.Front.com.App.Pages
             string ClientForPay = clientCmd_id.SelectedValue.ToString();
             Console.WriteLine("Client :" + ClientForPay);
             ClientCommandinitial(Convert.ToInt32(ClientForPay));
+        }
+
+        private void GenerateBonCmd_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+
+                DataTable dt = ClientCommandController.GetClientCmd();
+
+                string MethodPay = PurchaseMethod.SelectedValue.ToString();
+                string ChequeNum = ChequeNumber.Text;
+                string ClientForPay = clientCmd_id.SelectedValue.ToString();
+                double TotalPayed = 0;
+
+                string extension = "pdf";
+                iTextSharp.text.Image jpg = iTextSharp.text.Image.GetInstance(@"img/Facture.jpeg");
+                jpg.ScaleToFit(2700, 770);
+                jpg.Alignment = iTextSharp.text.Image.UNDERLYING;
+                jpg.SetAbsolutePosition(20, 35);
+                MessageBoxResult M = MessageBox.Show("Etes-vous sûr de vouloir Sauvgarder la facture ?", "Avertissement", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                if (M == MessageBoxResult.Yes)
+                {
+                    SaveFileDialog dialog = new SaveFileDialog()
+                    {
+                        DefaultExt = extension,
+                        Filter = String.Format("{1} PDF file | *.pdf", extension, "Pdf"),
+                        FilterIndex = 1
+                    };
+
+                    if (dialog.ShowDialog() == true)
+                    {
+                        iTextSharp.text.Document doc = new iTextSharp.text.Document(PageSize.A4, 0f, 0f, 140f, 100f);
+
+                        try
+                        {
+                            PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(dialog.FileName, FileMode.Create));
+                            doc.Open();
+                            doc.Add(jpg);
+                            PdfPTable table = new PdfPTable(10);
+
+                            addCell(table, "Produit", 0, "");
+                            addCell(table, "Qte", 0, "");
+                            addCell(table, "Client", 0, "");
+
+                            addCell(table, "Confirmée", 0, "");
+                            addCell(table, "Annulée", 0, "");
+                            addCell(table, "Date Commande", 0, "");
+
+                            addCell(table, "Date Confirmation", 0, "");
+                            addCell(table, "Date Annulation", 0, "");
+                            addCell(table, "Méthode de paiment", 0, "");
+
+                            addCell(table, "N° Chèque", 0, "");
+
+                            foreach (DataRow row in dt.Rows)
+                            {
+                                string Id = row["Id"].ToString();
+                                string Product = row["CMD_Product"].ToString();
+                                string Qte = row["CMD_Qte"].ToString();
+                                string Client = row["CMD_Client"].ToString();
+                                string ProductPrice = row["CMD_ProductPrice"].ToString();
+                                string Isdelivred = row["CMDIsDelivred"].ToString();
+                                string Iscancled = row["CMDIsCancled"].ToString();
+                                string CmdDate = row["CMD_CmdDate"].ToString();
+                                string ConfirmDate = row["CMD_ConfirmationDate"].ToString();
+                                string CancelDate = row["CMD_CancelDate"].ToString();
+
+
+                                if (Client.Equals(ClientCommandController.GetClientByID(Convert.ToInt32(ClientForPay))))
+                                {
+                                    string state = "";
+                                    if (Iscancled.Equals("True"))
+                                    {
+                                        state = "True";
+                                    }
+                                    addCell(table, Product, 0, state);
+                                    addCell(table, Qte, 0, state);
+                                    addCell(table, Client, 0, state);
+
+                                    addCell(table, Isdelivred, 0, state);
+                                    addCell(table, Iscancled, 0, state);
+                                    addCell(table, CmdDate, 0, state);
+
+                                    addCell(table, ConfirmDate, 0, state);
+                                    addCell(table, CancelDate, 0, state);
+                                    addCell(table, MethodPay, 0, state);
+
+                                    addCell(table, ChequeNum, 0, state);
+
+                                    Console.WriteLine(" Id :" + Id + " Product : " + Product + " ProductPrice : " + ProductPrice + " Qte : " + Qte + " Client :" + Client + " Isdelivred : " + Isdelivred + " Iscancled :" + Iscancled + " CmdDate : " + CmdDate + " ConfirmDate :" + ConfirmDate + " CancelDate :" + CancelDate + " MethodPay :" + MethodPay + " ChequeNum :" + ChequeNum + " ClientForPay :" + ClientForPay);
+                                    if (!String.IsNullOrEmpty(ProductPrice) && !String.IsNullOrEmpty(Qte)  && Iscancled.Equals("False"))
+                                        TotalPayed = TotalPayed + ((float.Parse(ProductPrice)) * (Convert.ToInt32(Qte)));
+                                }
+                            }
+                            Font lightblue = new Font(Font.FontFamily.COURIER, 20, Font.NORMAL, iTextSharp.text.BaseColor.BLACK);
+                            Font DateFont = new Font(Font.FontFamily.TIMES_ROMAN, 09, Font.NORMAL, iTextSharp.text.BaseColor.BLACK);
+                            //Chunk TitleChunk = new Chunk("Environment", lightblue);
+                            iTextSharp.text.Paragraph Title = new iTextSharp.text.Paragraph(" BON DE COMMANDE ", lightblue);
+                            Title.Font = new Font(FontFactory.GetFont("Arial", 20, Font.BOLD));
+                            Title.Alignment = Element.ALIGN_CENTER;
+                            doc.Add(Title);
+                            doc.Add(new Phrase("      Salé Le  " + DateTime.Now.ToString("yyyy-MM-dd HH:mm"), DateFont));
+                            doc.Add(table);
+
+                            doc.Add(new Phrase(" \n        TVA  :   0.00 DH TTC"));
+                            doc.Add(new Phrase(" \n \n         Total Facture à payer :     " + Math.Round(TotalPayed, 2) + "      DH TTC"));
+
+                            doc.Close();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message, "Message");
+
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Message");
+                }
+
+
+
+                ClientCommandinitial(Convert.ToInt32(ClientForPay));
+                initial();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(" Erreur : \n " + ex.StackTrace + " \n \n " + ex.Message);
+            }
+        }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            ClientCommandController.delete(Convert.ToInt32(clientCmd_id.SelectedValue.ToString()));
+            initial();
+            ClientCommandinitial(0);
+        }
+
+        private void CancelCmd_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+
+                if (G_CL_CMD.SelectedItems.Count > 0)
+                {
+                    for (int i = 0; i < G_CL_CMD.SelectedItems.Count; i++)
+                    {
+                        System.Data.DataRowView selectedFile = (System.Data.DataRowView)G_CL_CMD.SelectedItems[i];
+                        string str = Convert.ToString(selectedFile.Row.ItemArray[0]);
+                        Console.WriteLine(" my row :" + str);
+                    }
+                }
+
+                DataRowView row = G_CL_CMD.SelectedItem as DataRowView;
+
+                if (row != null)
+                {
+                    MessageBoxResult d = MessageBox.Show("Voulez-vous vraiment supprimer la(les) ligne(s) sélectionnée(s) ?", "Attention", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                    if (d == MessageBoxResult.Yes)
+                    {
+                        foreach (DataRowView selectedrows in G_CL_CMD.SelectedItems)
+                        {
+                            string PK = selectedrows[0].ToString();
+
+                            Console.WriteLine("my pk : " + PK);
+                        }
+                        MessageBox.Show("Paramétrage Supprimé");
+                        G_CL_CMD.ItemsSource = crudctx.ClientCommand.ToList();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Veuillez sélectionnez une ligne");
+                }
+            }
+            catch (NullReferenceException)
+            {
+                MessageBox.Show("Veuillez sélectionnez une ligne");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erreur :" + ex.Message + "  \n " + ex.StackTrace);
+            }
+        }
+
+        private void G_ClientCommands_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void CancelCmd_Click_1(object sender, RoutedEventArgs e)
+        {
+            for (var vis = sender as Visual; vis != null; vis = VisualTreeHelper.GetParent(vis) as Visual)
+                if (vis is DataGridRow)
+                {
+                    var row = (DataGridRow)vis;
+                    row.DetailsVisibility =
+                    row.DetailsVisibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+                    break;
+                }
+        }
+
+        private void G_CL_CMD_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
     public static class CollectionDataClient
