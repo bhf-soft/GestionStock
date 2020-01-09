@@ -124,7 +124,7 @@ namespace GestionStock.Front.com.App.Pages
 
         private void ClientNameSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            GlobalHellper.search(G_Client, ClientNameSearch, "Clients", "FullName");
         }
 
         private void Nouveau_Click(object sender, RoutedEventArgs e)

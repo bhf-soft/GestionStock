@@ -127,6 +127,7 @@ namespace GestionStock.Back.com.App.Controllers
             table.Columns.Add("CMD_CmdDate", typeof(DateTime));
             table.Columns.Add("CMD_ConfirmationDate", typeof(DateTime));
             table.Columns.Add("CMD_CancelDate", typeof(DateTime));
+            table.Columns.Add("CMD_NewPrice", typeof(float));
 
             using (StockDATAEntities context = new StockDATAEntities())
             {
@@ -140,7 +141,8 @@ namespace GestionStock.Back.com.App.Controllers
                                           i.IsCancled,
                                           i.CmdDate,
                                           i.ConfirmationDate,
-                                          i.CancelDate
+                                          i.CancelDate,
+                                          i.NewPrice
                                           };
 
                 query2.ToList().ForEach((n) =>
@@ -157,6 +159,7 @@ namespace GestionStock.Back.com.App.Controllers
                     row.SetField<DateTime?>("CMD_CmdDate", n.CmdDate);
                     row.SetField<DateTime?>("CMD_ConfirmationDate", n.ConfirmationDate);
                     row.SetField<DateTime?>("CMD_CancelDate", n.CancelDate);
+                    row.SetField<float?>("CMD_NewPrice", n.NewPrice);
 
                     table.Rows.Add(row);
                 });
@@ -176,6 +179,19 @@ namespace GestionStock.Back.com.App.Controllers
 
             clientName = q[0].name;
             return clientName;
+        }
+
+        public static float? GetPriceByName(string ProductName)
+        {
+            float? Price = 0f;
+            var q = (from a in StkInfo.Product.Where(a => a.Designation.Equals(ProductName))
+                     select new
+                     {
+                         price = a.Price
+                     }).Distinct().ToList();
+
+            Price = q[0].price;
+            return Price;
         }
     }
 }

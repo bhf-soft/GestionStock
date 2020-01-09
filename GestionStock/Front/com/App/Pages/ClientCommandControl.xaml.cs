@@ -150,7 +150,7 @@ namespace GestionStock.Front.com.App.Pages
                 DataRowView row = G_StockValable.SelectedItem as DataRowView;
                 if (row != null)
                 {
-                    foreach (DataRowView selectedrows in G_StockValable.SelectedItems)
+                    foreach (DataRowView selectedrows in G_StockValable.Items)
                     {
                         string STKENTER_PK = selectedrows[0].ToString();
                         string STKENTER_ProductID = selectedrows[1].ToString();
@@ -171,6 +171,17 @@ namespace GestionStock.Front.com.App.Pages
                         clientCommand.CmdDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
                         clientCommand.ConfirmationDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
 
+                        if(!ProductNewPrice.Text.Equals("0"))
+                        {
+                            string NewPrices = ProductNewPrice.Text;
+                            Nullable<float> f;
+                            if (NewPrices == null || NewPrices.Equals("")) f = null;
+                            else f = float.Parse(ProductNewPrice.Text);
+                            clientCommand.NewPrice = f;
+                        }else
+                        {
+                            clientCommand.NewPrice = 0;
+                        }
                         var UpdatedorInserted = crudctx.EnterStock.Where(c => c.Id.ToString().Equals(STKENTER_PK)).FirstOrDefault();
 
                         if (UpdatedorInserted.Qte >= clientCommand.Qte)
@@ -378,12 +389,20 @@ namespace GestionStock.Front.com.App.Pages
                 string ChequeNum = ChequeNumber.Text;
                 string ClientForPay = clientCmd_id.SelectedValue.ToString();
                 double TotalPayed = 0;
+                string CmdClient = "";
 
                 string extension = "pdf";
-                iTextSharp.text.Image jpg = iTextSharp.text.Image.GetInstance(@"img/Facture.jpeg");
-                jpg.ScaleToFit(2700, 770);
-                jpg.Alignment = iTextSharp.text.Image.UNDERLYING;
-                jpg.SetAbsolutePosition(20, 35);
+
+                iTextSharp.text.Image Footer = iTextSharp.text.Image.GetInstance(@"img/footer.png");
+                Footer.ScaleToFit(550, 36);
+                Footer.Alignment = iTextSharp.text.Image.UNDERLYING;
+                Footer.SetAbsolutePosition(0,0);
+
+
+                iTextSharp.text.Image CmdLogo = iTextSharp.text.Image.GetInstance(@"img/LogoTest.png");
+                CmdLogo.ScaleToFit(30,30);
+                CmdLogo.Alignment = iTextSharp.text.Image.UNDERLYING;
+                CmdLogo.SetAbsolutePosition(0,0);
                 MessageBoxResult M = MessageBox.Show("Etes-vous sûr de vouloir Sauvgarder la facture ?", "Avertissement", MessageBoxButton.YesNo, MessageBoxImage.Information);
                 if (M == MessageBoxResult.Yes)
                 {
@@ -396,28 +415,70 @@ namespace GestionStock.Front.com.App.Pages
 
                     if (dialog.ShowDialog() == true)
                     {
-                        iTextSharp.text.Document doc = new iTextSharp.text.Document(PageSize.A4, 0f, 0f, 140f, 100f);
+                        iTextSharp.text.Document doc = new iTextSharp.text.Document(PageSize.A5, 10f, 10f, 10f, 10f);
 
                         try
+
                         {
                             PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(dialog.FileName, FileMode.Create));
                             doc.Open();
-                            doc.Add(jpg);
-                            PdfPTable table = new PdfPTable(10);
+                            doc.Add(Footer);
 
-                            addCell(table, "Produit", 0, "");
+                            PdfPTable Headertable = new PdfPTable(3);
+                            Headertable.TotalWidth = 400f;
+                            Headertable.LockedWidth = true;
+                            Headertable.DefaultCell.Border = iTextSharp.text.Rectangle.NO_BORDER;
+                            float[] widths = new float[] { 100f, 200f, 200f };
+                            Headertable.SetWidths(widths);
+
+                            PdfPCell LogoCell = new PdfPCell(CmdLogo);
+                            PdfPCell cell1 = new PdfPCell(new Phrase("BM ZAY SARL"));
+                            cell1.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
+                            cell1.VerticalAlignment = PdfPCell.ALIGN_MIDDLE;
+
+
+                            BaseFont bfTimes = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, false);
+                            iTextSharp.text.Font times = new iTextSharp.text.Font(bfTimes, 7, iTextSharp.text.Font.NORMAL, iTextSharp.text.BaseColor.BLACK);
+                            iTextSharp.text.Font times2 = new iTextSharp.text.Font(bfTimes, 9, iTextSharp.text.Font.NORMAL, iTextSharp.text.BaseColor.BLACK);
+                            Font DateFont = new Font(Font.FontFamily.TIMES_ROMAN, 09, Font.NORMAL, iTextSharp.text.BaseColor.BLACK);
+
+                            PdfPCell cell2 = new PdfPCell(new Phrase("Comptoir de vente Profilés et accessoires pour menuiserie aluminium", times));
+                            cell2.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
+                            cell2.VerticalAlignment = PdfPCell.ALIGN_BOTTOM;
+
+
+                            PdfPCell cell4 = new PdfPCell(new Phrase("Client  :  "+ ClientCommandController.GetClientByID(Convert.ToInt32(ClientForPay)) , times2));
+                            cell4.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
+                            cell4.VerticalAlignment = PdfPCell.ALIGN_BOTTOM;
+
+                            PdfPCell cell5 = new PdfPCell(new Phrase("Salé Le  " + DateTime.Now.ToString("dd-MM-yyyy HH:mm"), DateFont));
+                            cell5.HorizontalAlignment = PdfPCell.ALIGN_RIGHT;
+                            cell5.VerticalAlignment = PdfPCell.ALIGN_BOTTOM;
+
+
+                            Headertable.AddCell(LogoCell);
+                            Headertable.AddCell(cell1);
+                            Headertable.AddCell(cell2);
+
+                            Headertable.AddCell(new PdfPCell(new Phrase(" ")));
+                            Headertable.AddCell(cell4);
+                            Headertable.AddCell(cell5);
+                            
+
+                            doc.Add(Headertable);
+
+                            PdfPTable table = new PdfPTable(4);
+
+                            table.TotalWidth = 400f;
+                            table.LockedWidth = true;
+                            float[] widthsTable = new float[] { 250f, 50f, 50f, 50f };
+                            table.SetWidths(widthsTable);
+
+                            addCell(table, "Désignation", 0, "");
                             addCell(table, "Qte", 0, "");
-                            addCell(table, "Client", 0, "");
+                            addCell(table, "Prix unit", 0, "");
 
-                            addCell(table, "Confirmée", 0, "");
-                            addCell(table, "Annulée", 0, "");
-                            addCell(table, "Date Commande", 0, "");
-
-                            addCell(table, "Date Confirmation", 0, "");
-                            addCell(table, "Date Annulation", 0, "");
-                            addCell(table, "Méthode de paiment", 0, "");
-
-                            addCell(table, "N° Chèque", 0, "");
+                            addCell(table, "Total", 0, "");
 
                             foreach (DataRow row in dt.Rows)
                             {
@@ -431,7 +492,13 @@ namespace GestionStock.Front.com.App.Pages
                                 string CmdDate = row["CMD_CmdDate"].ToString();
                                 string ConfirmDate = row["CMD_ConfirmationDate"].ToString();
                                 string CancelDate = row["CMD_CancelDate"].ToString();
+                                string NewPrice = row["CMD_NewPrice"].ToString();
 
+                                float? ProductPrix = ClientCommandController.GetPriceByName(Product);
+                                float? ProductTotal = ProductPrix*Convert.ToInt32(Qte);
+
+                                float? ProductPrixNew;
+                                float? ProductTotalNew;                                
 
                                 if (Client.Equals(ClientCommandController.GetClientByID(Convert.ToInt32(ClientForPay))))
                                 {
@@ -442,41 +509,47 @@ namespace GestionStock.Front.com.App.Pages
                                     }
                                     addCell(table, Product, 0, state);
                                     addCell(table, Qte, 0, state);
-                                    addCell(table, Client, 0, state);
+                                    if (NewPrice.Equals("0"))
+                                    {
+                                        addCell(table, ProductPrix.ToString(), 0, state);
+                                        addCell(table, ProductTotal.ToString(), 0, state);
 
-                                    addCell(table, Isdelivred, 0, state);
-                                    addCell(table, Iscancled, 0, state);
-                                    addCell(table, CmdDate, 0, state);
+                                        if (!String.IsNullOrEmpty(ProductPrice) && !String.IsNullOrEmpty(Qte) && Iscancled.Equals("False"))
+                                            TotalPayed = TotalPayed + ((float.Parse(ProductPrice)) * (Convert.ToInt32(Qte)));
 
-                                    addCell(table, ConfirmDate, 0, state);
-                                    addCell(table, CancelDate, 0, state);
-                                    addCell(table, MethodPay, 0, state);
+                                    }
+                                    else
+                                    {
+                                        ProductPrixNew = float.Parse(NewPrice);
+                                        ProductTotalNew = ProductPrixNew * Convert.ToInt32(Qte);
 
-                                    addCell(table, ChequeNum, 0, state);
+                                        addCell(table, ProductPrixNew.ToString(), 0, state);
+                                        addCell(table, ProductTotalNew.ToString(), 0, state);
 
+                                        if (!String.IsNullOrEmpty(ProductPrixNew.ToString()) && !String.IsNullOrEmpty(Qte) && Iscancled.Equals("False"))
+                                            TotalPayed = TotalPayed + (float.Parse(ProductTotalNew.ToString()));
+                                    }
+                                        
                                     Console.WriteLine(" Id :" + Id + " Product : " + Product + " ProductPrice : " + ProductPrice + " Qte : " + Qte + " Client :" + Client + " Isdelivred : " + Isdelivred + " Iscancled :" + Iscancled + " CmdDate : " + CmdDate + " ConfirmDate :" + ConfirmDate + " CancelDate :" + CancelDate + " MethodPay :" + MethodPay + " ChequeNum :" + ChequeNum + " ClientForPay :" + ClientForPay);
-                                    if (!String.IsNullOrEmpty(ProductPrice) && !String.IsNullOrEmpty(Qte)  && Iscancled.Equals("False"))
-                                        TotalPayed = TotalPayed + ((float.Parse(ProductPrice)) * (Convert.ToInt32(Qte)));
+                                    
                                 }
                             }
                             Font lightblue = new Font(Font.FontFamily.COURIER, 20, Font.NORMAL, iTextSharp.text.BaseColor.BLACK);
-                            Font DateFont = new Font(Font.FontFamily.TIMES_ROMAN, 09, Font.NORMAL, iTextSharp.text.BaseColor.BLACK);
                             //Chunk TitleChunk = new Chunk("Environment", lightblue);
                             iTextSharp.text.Paragraph Title = new iTextSharp.text.Paragraph(" BON DE COMMANDE ", lightblue);
-                            Title.Font = new Font(FontFactory.GetFont("Arial", 20, Font.BOLD));
-                            Title.Alignment = Element.ALIGN_CENTER;
+                            Title.Font = new Font(FontFactory.GetFont("Arial", 16, Font.BOLD));
+                            Title.Alignment = Element.ALIGN_CENTER; 
                             doc.Add(Title);
-                            doc.Add(new Phrase("      Salé Le  " + DateTime.Now.ToString("yyyy-MM-dd HH:mm"), DateFont));
+                            doc.Add(new Phrase(" \n"));
                             doc.Add(table);
 
-                            doc.Add(new Phrase(" \n        TVA  :   0.00 DH TTC"));
                             doc.Add(new Phrase(" \n \n         Total Facture à payer :     " + Math.Round(TotalPayed, 2) + "      DH TTC"));
 
                             doc.Close();
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show(ex.Message, "Message");
+                            MessageBox.Show(ex.Message + " \n \n "+ex.StackTrace, "Message");
 
                         }
                     }
@@ -572,6 +645,14 @@ namespace GestionStock.Front.com.App.Pages
         private void G_CL_CMD_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void ClientCommandNameSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if(ClientCommandNameSearch.Text != null || !ClientCommandNameSearch.Text.Equals(""))
+            {
+                G_StockValable.ItemsSource = myList.Where(a => a.Product.Designation.ToLower().Contains(ClientCommandNameSearch.Text.ToLower())).ToList();
+            }
         }
     }
     public static class CollectionDataClient

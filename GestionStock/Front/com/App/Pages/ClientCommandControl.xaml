@@ -17,7 +17,7 @@
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,10">
                             <Label Content="Rechercher :   " Foreground='black' FontSize="14" />
-                            <TextBox x:Name="ProviderCommandNameSearch" Style="{StaticResource placeHolder}" Tag="Nom Commande    " MaxLength="10" HorizontalAlignment="Left" Height="30" Margin="1,0,0,4" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+                            <TextBox x:Name="ClientCommandNameSearch" Style="{StaticResource placeHolder}" Tag="Nom Commande    " MaxLength="10" HorizontalAlignment="Left" Height="30" Margin="1,0,0,4" TextWrapping="Wrap" Text="" VerticalAlignment="Top" TextChanged="ClientCommandNameSearch_TextChanged"/>
                         </StackPanel>
                         <StackPanel Orientation='Horizontal' Margin='6' HorizontalAlignment='Center'>
                             <Button x:Name='Backwards' Padding='4' Content='&lt;' Margin='6' Click='Backwards_Click'></Button>
@@ -56,6 +56,10 @@
                             </ComboBox>
                             <Label Content="Nombre de pièces  :   " Foreground='black' FontSize="14" />
                             <TextBox x:Name="ProductNbrPcs" Style="{StaticResource placeHolder}" Tag="Nombre de pièces    " MaxLength="10" HorizontalAlignment="Left" Height="30" Margin="1,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" />
+                            
+                            <Label Content="Rédaction Prix  :   " Foreground='black' FontSize="14" />
+                            <TextBox x:Name="ProductNewPrice" Style="{StaticResource placeHolder}" Tag="Nombre de pièces    " MaxLength="10" HorizontalAlignment="Left" Height="30" Margin="1,0,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" />
+
                             <Button x:Name='AddToBasket' Padding='4' Content='Ajouter au panier ' Margin='25,0' Click='AddToBasket_Click'></Button>
                         </StackPanel>
 

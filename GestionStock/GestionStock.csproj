@@ -82,6 +82,7 @@
     <Compile Include="Back\com\App\Controllers\ClientCommandController.cs" />
     <Compile Include="Back\com\App\Controllers\ClientController.cs" />
     <Compile Include="Back\com\App\Controllers\CmdCancelController.cs" />
+    <Compile Include="Back\com\App\Controllers\GlobalHellper.cs" />
     <Compile Include="Back\com\App\Controllers\ProductController.cs" />
     <Compile Include="Back\com\App\Controllers\ProviderCommandController.cs" />
     <Compile Include="Back\com\App\Controllers\ProviderController.cs" />
@@ -307,6 +308,7 @@
     <Resource Include="Assets\imgs\clientcmd.png" />
     <Resource Include="Assets\imgs\CancelCmd.png" />
     <Resource Include="stk.ico" />
+    <Resource Include="Back\com\App\Controllers\GlobalSettings.txt" />
     <Content Include="StockDATAModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>StockDATAModel.Context.cs</LastGenOutput>

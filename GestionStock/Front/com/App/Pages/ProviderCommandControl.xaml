@@ -14,10 +14,10 @@
             <StackPanel Orientation="Vertical" Width="auto">
                 <StackPanel Orientation="Vertical" Height="auto" Width="auto" Margin="0,0,0,0">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,10">
+                        <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,10">
                             <Label Content="Rechercher :   " Foreground='black' FontSize="14" />
                             <TextBox x:Name="ProviderCommandNameSearch" Style="{StaticResource placeHolder}" Tag="Nom Commande    " MaxLength="10" HorizontalAlignment="Left" Height="30" Margin="1,0,0,4" TextWrapping="Wrap" Text="" VerticalAlignment="Top" TextChanged="ProviderCommandNameSearch_TextChanged"/>
-                        </StackPanel>
+                        </StackPanel>-->
                         <StackPanel Orientation='Horizontal' Margin='6' HorizontalAlignment='Center'>
                             <Button x:Name='Backwards' Padding='4' Content='&lt;' Margin='6' Click='Backwards_Click'></Button>
                             <Button x:Name='First' Padding='4' Content='&lt;&lt;' Margin='6' Click='First_Click'></Button>

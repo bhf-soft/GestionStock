@@ -117,7 +117,7 @@ namespace GestionStock.Front.com.App.Pages
 
         private void ProviderNameSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            GlobalHellper.search(G_Provider, ProviderNameSearch, "Providers", "FullName");
         }
         private void Nouveau_Click(object sender, RoutedEventArgs e)
         {

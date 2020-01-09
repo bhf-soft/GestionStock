@@ -30,6 +30,7 @@ namespace GestionStock
         public Nullable<System.DateTime> CmdDate { get; set; }
         public Nullable<System.DateTime> ConfirmationDate { get; set; }
         public Nullable<System.DateTime> CancelDate { get; set; }
+        public Nullable<float> NewPrice { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClientBill> ClientBill { get; set; }

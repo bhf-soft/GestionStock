@@ -170,18 +170,31 @@ namespace GestionStock.Front.com.App.Pages
 
         private void Supprimer_Click(object sender, RoutedEventArgs e)
         {
-            ProviderCommandLists.delete(G_ProviderCommand);
+            try
+            {
+                ProviderCommandLists.delete(G_ProviderCommand);
+            }catch(Exception ex)
+            {
+                MessageBox.Show("Erreur : \n \n " + ex.Message + " \n " + ex.StackTrace);
+            }
             initial();
         }
 
-        private void ProviderCommandNameSearch_TextChanged(object sender, TextChangedEventArgs e)
+        /*private void ProviderCommandNameSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-
-        }
+            GlobalHellper.search(G_ProviderCommand, ProviderCommandNameSearch, "ProviderCommand", "Product_id");
+        }*/
 
         private void Stocker_Click(object sender, RoutedEventArgs e)
         {
-            ProviderCommandLists.Stocker(G_ProviderCommand, PayedAmount.Text, PurchaseMethod.SelectedValue.ToString(), ChequeNumber.Text);
+            try
+            {
+                ProviderCommandLists.Stocker(G_ProviderCommand, PayedAmount.Text, PurchaseMethod.SelectedValue.ToString(), ChequeNumber.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erreur : \n \n " + ex.Message + " \n " + ex.StackTrace);
+            }
             initial();
             ChequeNumber.Text = "";
             PayedAmount.Text = "";

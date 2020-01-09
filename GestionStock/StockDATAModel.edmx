@@ -41,6 +41,7 @@
           <Property Name="CmdDate" Type="date" />
           <Property Name="ConfirmationDate" Type="date" />
           <Property Name="CancelDate" Type="date" />
+          <Property Name="NewPrice" Type="real" />
         </EntityType>
         <EntityType Name="Clients">
           <Key>
@@ -498,6 +499,7 @@
           <NavigationProperty Name="Clients" Relationship="Self.FK__ClientCom__Clien__1DE57479" FromRole="ClientCommand" ToRole="Clients" />
           <NavigationProperty Name="Product" Relationship="Self.FK__ClientCom__Produ__1BFD2C07" FromRole="ClientCommand" ToRole="Product" />
           <NavigationProperty Name="Users" Relationship="Self.FK__ClientCom__Users__1CF15040" FromRole="ClientCommand" ToRole="Users" />
+          <Property Name="NewPrice" Type="Single" />
         </EntityType>
         <EntityType Name="Clients">
           <Key>
@@ -970,6 +972,7 @@
           <EntitySetMapping Name="ClientCommand">
             <EntityTypeMapping TypeName="StockDATAModel.ClientCommand">
               <MappingFragment StoreEntitySet="ClientCommand">
+                <ScalarProperty Name="NewPrice" ColumnName="NewPrice" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Product_id" ColumnName="Product_id" />
                 <ScalarProperty Name="Qte" ColumnName="Qte" />

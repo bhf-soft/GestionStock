@@ -1,0 +1,2 @@
+﻿ServerName=MERCUREIT-PC\SQLEXPRESS
+DataBase=StockDATA

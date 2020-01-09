@@ -161,7 +161,7 @@ namespace GestionStock.Front.com.App.Pages
         }
         private void CategoryNameSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            GlobalHellper.search(G_Category, CategoryNameSearch, "Category", "Designation");
         }
     }
 }

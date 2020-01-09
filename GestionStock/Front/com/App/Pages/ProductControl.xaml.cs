@@ -165,7 +165,7 @@ namespace GestionStock.Front.com.App.Pages
 
         private void ProductNameSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            GlobalHellper.search(G_Product, ProductNameSearch, "Product", "Designation");
         }
     }
 }
