@@ -27,6 +27,7 @@ namespace GestionStock.Front.com.App
         ProviderCommandControl ProviderCommandControl = new ProviderCommandControl();
         ClientCommandControl ClientCommandControl = new ClientCommandControl();
         CmdCancelControl CmdCancelControl = new CmdCancelControl();
+        StatisticsControl StatisticsControl = new StatisticsControl();
         public StartApp()
         {
             InitializeComponent();
@@ -193,6 +194,29 @@ namespace GestionStock.Front.com.App
         {
             ClientCommandCancelBtn.Width = 70;
             ClientCommandCancelBtn.Height = 70;
+        }
+
+        private void ChartBtn_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            MainPanel.Children.Clear();
+            if (MainPanel.Children.Count == 0)
+            {
+                MainPanel.Children.Add(StatisticsControl);
+                //MainPanel.Children.Add(CategoryControl);
+                //StatisticsControl.initial();
+            }
+        }
+
+        private void ChartBtn_MouseEnter(object sender, MouseEventArgs e)
+        {
+            ChartBtn.Width = 90;
+            ChartBtn.Height = 90;
+        }
+
+        private void ChartBtn_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ChartBtn.Width = 70;
+            ChartBtn.Height = 70;
         }
     }
 }
